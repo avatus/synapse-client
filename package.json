@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_ROOT_URL=http://localhost:5001 react-scripts start",
-    "local": "cross-env REACT_APP_ROOT_URL=https://floating-brook-35927.herokuapp.com/ react-scripts start",
+    "local": "cross-env REACT_APP_ROOT_URL=https://synapse-api.herokuapp.com/ react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
