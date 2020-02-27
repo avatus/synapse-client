@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 // import { css } from 'glamor'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar'
-import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
 // import Blockie from 'react-blockies'
@@ -45,16 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const Header = props => {
     const { user, drawerOpen } = props
-    const [showId, setShowId] = useState(false)
     const classes = useStyles()
-
-    const mouseEnter = () => {
-        setShowId(true)
-    }
-
-    const mouseLeave = () => {
-        setShowId(false)
-    }
 
     const userImage = `https://api.adorable.io/avatars/30/${user}`
 
@@ -65,23 +55,18 @@ const Header = props => {
                     className={drawerOpen ? classes.drawerOpen : classes.drawerClose }
                     variant="dense">
                     <Typography className={classes.title}>
-                        Room 1
+                        {/* Room 1 */}
                     </Typography>
                     <div>
                         <Grid container
                             alignItems="center"
                             spacing={1}
-                            onMouseEnter={mouseEnter}
-                            onMouseLeave={mouseLeave}
                         >
-                            <Fade
-                                in={showId}>
-                                <Grid item>
-                                    <Typography
-                                        style={{ color: "#666" }}
-                                        variant="caption">{user.substring(user.length - 5)}</Typography>
-                                </Grid>
-                            </Fade>
+                            <Grid item>
+                                <Typography
+                                    style={{ color: "#666" }}
+                                    variant="caption">{user.substring(user.length - 5)}</Typography>
+                            </Grid>
                             <Grid item>
                                 <Avatar
                                     style={{

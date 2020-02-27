@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Dashboard from '../components/Dashboard'
+import Room from '../components/Room'
 import { drawerWidth } from '../config/constants'
 
 const width = Dimensions.get('window').width
@@ -55,6 +56,7 @@ const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
             <Header />
             <div className={classes.routerRoot}>
                 <Switch>
+                    <Route exact path="/synapse/:id" component={Room} />
                     <Route exact path="/" component={Dashboard} />
                     <Redirect to="/" />
                 </Switch>

@@ -3,13 +3,16 @@ import clsx from 'clsx'
 import Drawer from '@material-ui/core/Drawer'
 import Blockies from 'react-blockies'
 import List from '@material-ui/core/List'
-import Badge from '@material-ui/core/Badge'
+import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
+import { PulseSpinner } from 'react-spinners-kit'
+import { Link } from 'react-router-dom'
+// import Badge from '@material-ui/core/Badge'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import RandomBlockie from './RandomRoomIcon'
+// import RandomBlockie from './RandomRoomIcon'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { withStyles } from '@material-ui/core/styles'
@@ -23,114 +26,140 @@ const actions = {
 }
 
 const Menu = props => {
-    const { classes, drawerOpen: open, openMenu, closeMenu } = props
+    const {
+        classes,
+        drawerOpen: open,
+        openMenu,
+        rooms,
+        fetching_rooms,
+        closeMenu,
+    } = props
+
+    const roomIcon = room => {
+        return (
+            <ListItem
+                style={{
+                    color: "#aaa"
+                }}
+                button
+                dense
+                component={Link}
+                to={`/synapse/${room}`}
+                key={room}>
+                <ListItemIcon>
+                    {/* <Badge
+                        color="primary"
+                        classes={{
+                            badge: classes.badgeDefault,
+                            colorPrimary: classes.badgeColor
+                        }}
+                        badgeContent={3}> */}
+                    <Blockies seed={room} scale={3} />
+                    {/* </Badge> */}
+                </ListItemIcon>
+                <ListItemText>{room}</ListItemText>
+            </ListItem>
+        )
+    }
+
     return (
         <Drawer
-        className={clsx(classes.drawer, {
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-        })}
-        classes={{
-            paper: clsx({
-                [classes.drawerPaper]: true,
+            className={clsx(classes.drawer, {
                 [classes.drawerOpen]: open,
                 [classes.drawerClose]: !open,
-            }),
-        }}
-        variant="permanent"
-        open={true}>
-        <div
-            style={{
-                width: drawerWidth,
-                backgroundColor: "#222",
-                height: "100%",
+            })}
+            classes={{
+                paper: clsx({
+                    [classes.drawerPaper]: true,
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                }),
             }}
-        >
+            variant="permanent"
+            open={true}>
             <div
                 style={{
-                    width: open ? drawerWidth : 65,
-                    transition: '0.2s'
+                    width: drawerWidth,
+                    backgroundColor: "#222",
+                    height: "100%",
                 }}
-                className={classes.menuTopDiv}
             >
-                <IconButton
-                    onClick={open ? closeMenu : openMenu}
-                    edge="start"
-                    className={classes.chevron} 
-                    color="inherit"
-                    aria-label="menu">
-                    { open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                </IconButton>
-            </div>
-            <div style={{ color: "gainsboro" }}>
-                <div>
-                    <List >
-                        <ListItem 
-                            style={{
-                                color: "#aaa"
-                            }}
-                            button
-                            dense 
-                            key={1}>
-                            <ListItemIcon>
-                                <Badge 
-                                    color="primary"
-                                    classes={{
-                                        badge: classes.badgeDefault,
-                                        colorPrimary: classes.badgeColor
+                <div
+                    style={{
+                        width: open ? drawerWidth : 65,
+                        transition: '0.2s'
+                    }}
+                    className={classes.menuTopDiv}
+                >
+                    <IconButton
+                        onClick={open ? closeMenu : openMenu}
+                        edge="start"
+                        className={classes.chevron}
+                        color="inherit"
+                        aria-label="menu">
+                        {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <div style={{ color: "gainsboro" }}>
+                    <div>
+                        <List >
+                            <ListItem
+                                style={{
+                                    color: "#aaa"
+                                }}
+                                component={Link}
+                                to="/"
+                                dense
+                                button
+                                key={1}>
+                                <ListItemIcon>
+                                    <DashboardRoundedIcon style={{ color: "#777" }} />
+                                </ListItemIcon>
+                                <ListItemText>Index</ListItemText>
+                            </ListItem>
+                            <ListItem
+                                style={{
+                                    color: "#aaa"
+                                }}
+                                dense
+                                button
+                                key={4}>
+                                <ListItemIcon>
+                                    <AddBoxRoundedIcon style={{ color: "#777" }} />
+                                </ListItemIcon>
+                                <ListItemText>Join Room</ListItemText>
+                            </ListItem>
+                            {
+                                fetching_rooms &&
+                                <ListItem
+                                    style={{
+                                        color: "#aaa"
                                     }}
-                                    badgeContent={3}>
-                                    <Blockies seed={"098asdf098"} scale={3} />
-                                </Badge>
-                            </ListItemIcon>
-                            <ListItemText>Room 1</ListItemText>
-                        </ListItem>
-                        <ListItem 
-                            style={{
-                                color: "#aaa"
-                            }}
-                            button
-                            dense 
-                            key={3}>
-                            <ListItemIcon>
-                                <Blockies seed={"asdfasdf09"} scale={3} />
-                            </ListItemIcon>
-                            <ListItemText>Room 2</ListItemText>
-                        </ListItem>
-                        <ListItem 
-                            style={{
-                                color: "#aaa"
-                            }}
-                            dense
-                            button
-                            key={4}>
-                            <ListItemIcon>
-                                <AddBoxRoundedIcon style={{color: "#777"}} />
-                            </ListItemIcon>
-                            <ListItemText>Join Room</ListItemText>
-                        </ListItem>
-                        <ListItem 
-                            style={{
-                                color: "#aaa"
-                            }}
-                            dense
-                            button
-                            key={2}>
-                            <ListItemIcon>
-                                <RandomBlockie />
-                            </ListItemIcon>
-                            <ListItemText>Random Room</ListItemText>
-                        </ListItem>
-                    </List>
+                                    dense
+                                    key={1}>
+                                    <ListItemIcon>
+                                        <PulseSpinner 
+                                            color="#69f0ae"
+                                            size={24} />
+                                    </ListItemIcon>
+                                    <ListItemText>Getting rooms...</ListItemText>
+                                </ListItem>
+                            }
+                            {rooms.map(r => roomIcon(r))}
+                        </List>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Drawer>
+        </Drawer>
     )
 }
 
 const mapStateToProps = state => {
-    return { drawerOpen: state.interface.drawerOpen }
+    return {
+        drawerOpen: state.interface.drawerOpen,
+        rooms: state.auth.room_list,
+        fetching_rooms: state.auth.fetching_rooms,
+    }
 }
 
 const styles = theme => ({
