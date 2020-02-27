@@ -1,3 +1,4 @@
+import * as TYPES from './interface.types'
 import { toast } from 'react-toastify'
 import { css } from 'glamor'
 
@@ -28,4 +29,12 @@ export const showMessage = (message, status) => {
             hideProgressBar: true,
         });
     }
+}
+
+export const openMenu = () => dispatch => {
+    return dispatch({ type: TYPES.OPEN_MENU })
+}
+
+export const closeMenu = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_MENU })
 }

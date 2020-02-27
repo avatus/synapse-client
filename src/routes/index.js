@@ -1,4 +1,5 @@
 import React from 'react'
+import Menu from '../components/Menu'
 import Header from '../components/Header'
 import { GuardSpinner } from 'react-spinners-kit'
 import { View, StyleSheet } from 'react-native-web'
@@ -8,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Dashboard from '../components/Dashboard'
+import { drawerWidth } from '../config/constants'
 
 const width = Dimensions.get('window').width
 const vh = width > 520 ? 100 : 85
@@ -15,11 +17,29 @@ const vh = width > 520 ? 100 : 85
 const muiStyles = theme => ({
     routerRoot: {
         minHeight: `${vh}vh`,
-    }
+    },
+    drawerOpen: {
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerClose: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        marginLeft: theme.spacing(7) + 1,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(8) + 1,
+        },
+    },
 })
 
 
-const AuthenticatedRoutes = ({ classes, user }) => {
+const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
     if (!user) {
         return (
             <View style={styles.loading}>
@@ -28,7 +48,10 @@ const AuthenticatedRoutes = ({ classes, user }) => {
         )
     }
     return (
-        <div>
+        <div 
+            className={drawerOpen ? classes.drawerOpen : classes.drawerClose } 
+        >
+            <Menu />
             <Header />
             <div className={classes.routerRoot}>
                 <Switch>
@@ -41,7 +64,10 @@ const AuthenticatedRoutes = ({ classes, user }) => {
 }
 
 const mapStateToProps = state => {
-    return { user: state.auth.user }
+    return { 
+        user: state.auth.user,
+        drawerOpen: state.interface.drawerOpen
+    }
 }
 
 const styles = StyleSheet.create({

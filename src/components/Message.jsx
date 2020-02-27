@@ -3,7 +3,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import moment from 'moment'
-import Blockies from 'react-blockies';
+import Avatar from '@material-ui/core/Avatar'
 import useInterval from '@use-it/interval';
 import { withStyles } from '@material-ui/core/styles'
 
@@ -20,13 +20,16 @@ const Message = props => {
       setTime(formatTime(momentTime))
     }, 60000)
 
+    const userImage = `https://api.adorable.io/avatars/64/${message.user}`
+
     return (
       <ListItem
         key={message.id}
         className={classes.message}>
         <ListItemAvatar>
-          <Blockies
-            seed={message.user}
+          <Avatar
+            src={userImage}
+            alt={message.user}
           />
         </ListItemAvatar>
         <ListItemText

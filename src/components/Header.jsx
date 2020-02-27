@@ -1,42 +1,50 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+// import { css } from 'glamor'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar'
 import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
-import Blockie from 'react-blockies'
-import IconButton from '@material-ui/core/IconButton';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+// import Blockie from 'react-blockies'
+import { drawerWidth } from '../config/constants'
+
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
-    chevron: {
-        color: "#666",
-        '&:hover': {
-            color: '#00e676'
-         },
-         transition: '0.2s'
-    },
     appbar: {
         backgroundColor: "#242424",
     },
-    toolbar: {
-
+    drawerOpen: {
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
+    drawerClose: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        marginLeft: theme.spacing(7) + 1,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(8) + 1,
+        },
     },
     title: {
         flexGrow: 1,
+        color: "#aaa"
     },
 }));
 
 const Header = props => {
-    const { user } = props
+    const { user, drawerOpen } = props
     const [showId, setShowId] = useState(false)
     const classes = useStyles()
 
@@ -48,15 +56,16 @@ const Header = props => {
         setShowId(false)
     }
 
+    const userImage = `https://api.adorable.io/avatars/30/${user}`
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.appbar} position="absolute">
-                <Toolbar variant="dense">
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <ChevronRightIcon className={classes.chevron} />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                    
+                <Toolbar 
+                    className={drawerOpen ? classes.drawerOpen : classes.drawerClose }
+                    variant="dense">
+                    <Typography className={classes.title}>
+                        Room 1
                     </Typography>
                     <div>
                         <Grid container
@@ -65,18 +74,26 @@ const Header = props => {
                             onMouseEnter={mouseEnter}
                             onMouseLeave={mouseLeave}
                         >
-                            <Fade 
+                            <Fade
                                 in={showId}>
                                 <Grid item>
-                                    <Typography 
-                                        style={{color: "#666"}}
+                                    <Typography
+                                        style={{ color: "#666" }}
                                         variant="caption">{user.substring(user.length - 5)}</Typography>
                                 </Grid>
                             </Fade>
                             <Grid item>
-                                <Blockie 
+                                <Avatar
+                                    style={{
+                                        width: 30,
+                                        height: 30,
+                                    }}
+                                    src={userImage}
+                                    alt={user}
+                                />
+                                {/* <Blockie 
                                     scale={3}
-                                    seed={user} />
+                                    seed={user} /> */}
                             </Grid>
                         </Grid>
                     </div>
@@ -87,7 +104,10 @@ const Header = props => {
 }
 
 const mapStateToProps = state => {
-    return { user: state.auth.user }
+    return { 
+        user: state.auth.user,
+        drawerOpen: state.interface.drawerOpen
+    }
 }
 
 export default connect(mapStateToProps)(Header)
