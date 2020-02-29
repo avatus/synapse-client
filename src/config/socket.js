@@ -4,6 +4,7 @@ import { store } from '../index'
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as authActions from '../actions/auth/auth.actions'
 import * as TYPES from '../actions/auth/auth.types'
+import * as roomTypes from '../actions/rooms/room.types'
 import randomstring from 'randomstring'
 let failedOnce = false
 
@@ -42,6 +43,21 @@ socket.on('connect_error', error => {
 
 socket.on('USER_ROOM_LIST', rooms => {
     authActions.setUserRooms(rooms)
+})
+
+socket.on('USER_LEFT_ROOM', room => {
+    const { room_name } = store.getState().room
+    if (room_name === room) {
+        store.dispatch({ type: roomTypes.USER_LEFT_ROOM })
+    }
+})
+
+socket.on('USER_JOINED_ROOM', ({room, id_token: user_token}) => {
+    console.log(`${user_token} joined ${room}`)
+    const { room_name } = store.getState().room
+    if (room_name === room && id_token !== user_token) {
+        store.dispatch({ type: roomTypes.USER_JOINED_ROOM })
+    }
 })
 
 socket.on('reconnect_failed', () => {

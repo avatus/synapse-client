@@ -34,7 +34,7 @@ const muiStyles = theme => ({
         overflowX: 'hidden',
         marginLeft: theme.spacing(7) + 1,
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(8) + 1,
+            marginLeft: theme.spacing(7) + 1,
         },
     },
 })

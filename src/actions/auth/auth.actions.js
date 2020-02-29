@@ -3,7 +3,13 @@ import { store } from '../../index'
 import axios from 'axios'
 
 export const setUserRooms = rooms =>  {
-    store.dispatch({ type: TYPES.USER_ROOM_LIST, payload: rooms })
+    let roomObj = {}
+    rooms.forEach(r => {
+        roomObj[r] = {
+            unread: 0,
+        }
+    })
+    store.dispatch({ type: TYPES.USER_ROOM_LIST, payload: roomObj })
 }
 
 export const checkHumanToken = (token, done) => dispatch => {

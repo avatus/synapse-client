@@ -48,8 +48,13 @@ const styles = theme => ({
         marginTop: "0.5rem",
         backgroundColor: "#282828",
         borderRadius: "4px",
-        listStyleType: "none"
-      }
+        listStyleType: "none",
+        transition: '0.1s',
+      //   transition: theme.transitions.create('transform', {
+      //     easing: theme.transitions.easing.sharp,
+      //     duration: theme.transitions.duration.enteringScreen,
+      // }),
+    },
 })
 
 export default withStyles(styles)(Message)

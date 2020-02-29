@@ -15,7 +15,7 @@ const actions = {
 }
 
 const UserInput = props => {
-    const { classes, user, sendMessage } = props
+    const { classes, user, sendMessage, current_room } = props
     const [input, setInput] = useState("")
 
     const submitMessage = () => {
@@ -28,7 +28,7 @@ const UserInput = props => {
             text: input,
             time: moment(),
         }
-        sendMessage(newMessage)
+        sendMessage(current_room, newMessage)
         setInput("")
     }
 
@@ -84,7 +84,10 @@ const muiStyles = theme => ({
 })
 
 const mapStateToProps = state => {
-    return { user: state.auth.user }
+    return { 
+        user: state.auth.user,
+        current_room: state.room.room_name
+    }
 }
 
 export default connect(mapStateToProps, actions)(withStyles(muiStyles)(UserInput))

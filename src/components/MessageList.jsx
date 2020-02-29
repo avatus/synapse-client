@@ -13,7 +13,7 @@ const MessageList = props => {
 }
 
 const mapStateToProps = state => {
-    return { messages: state.messages.messages }
+    return { messages: state.room.history }
 }
 
 export default connect(mapStateToProps)(MessageList)

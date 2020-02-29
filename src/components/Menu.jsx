@@ -6,7 +6,7 @@ import List from '@material-ui/core/List'
 import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
 import { PulseSpinner } from 'react-spinners-kit'
 import { Link } from 'react-router-dom'
-// import Badge from '@material-ui/core/Badge'
+import Badge from '@material-ui/core/Badge'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -27,6 +27,7 @@ const actions = {
 
 const Menu = props => {
     const {
+        current_room,
         classes,
         drawerOpen: open,
         openMenu,
@@ -35,29 +36,34 @@ const Menu = props => {
         closeMenu,
     } = props
 
-    const roomIcon = room => {
+
+    const roomIcon = (room_name, room_data) => {
         return (
             <ListItem
                 style={{
                     color: "#aaa"
                 }}
                 button
+                classes={{
+                    selected: classes.selected
+                }}
                 dense
+                selected={room_name === current_room}
                 component={Link}
-                to={`/synapse/${room}`}
-                key={room}>
+                to={`/synapse/${room_name}`}
+                key={room_name}>
                 <ListItemIcon>
-                    {/* <Badge
+                    <Badge
                         color="primary"
                         classes={{
                             badge: classes.badgeDefault,
                             colorPrimary: classes.badgeColor
                         }}
-                        badgeContent={3}> */}
-                    <Blockies seed={room} scale={3} />
-                    {/* </Badge> */}
+                        badgeContent={room_data.unread}>
+                    <Blockies seed={room_name} scale={3} />
+                    </Badge>
                 </ListItemIcon>
-                <ListItemText>{room}</ListItemText>
+                <ListItemText>{room_name}</ListItemText>
             </ListItem>
         )
     }
@@ -111,7 +117,7 @@ const Menu = props => {
                                 to="/"
                                 dense
                                 button
-                                key={1}>
+                                key={`00000001`}>
                                 <ListItemIcon>
                                     <DashboardRoundedIcon style={{ color: "#777" }} />
                                 </ListItemIcon>
@@ -123,7 +129,7 @@ const Menu = props => {
                                 }}
                                 dense
                                 button
-                                key={4}>
+                                key={`00000002`}>
                                 <ListItemIcon>
                                     <AddBoxRoundedIcon style={{ color: "#777" }} />
                                 </ListItemIcon>
@@ -145,21 +151,13 @@ const Menu = props => {
                                     <ListItemText>Getting rooms...</ListItemText>
                                 </ListItem>
                             }
-                            {rooms.map(r => roomIcon(r))}
+                            {Object.keys(rooms).map(r => roomIcon(r, rooms[r]))}
                         </List>
                     </div>
                 </div>
             </div>
         </Drawer>
     )
-}
-
-const mapStateToProps = state => {
-    return {
-        drawerOpen: state.interface.drawerOpen,
-        rooms: state.auth.room_list,
-        fetching_rooms: state.auth.fetching_rooms,
-    }
 }
 
 const styles = theme => ({
@@ -207,9 +205,22 @@ const styles = theme => ({
         overflowX: 'hidden',
         width: theme.spacing(7) + 1,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(8) + 1,
+            width: theme.spacing(7) + 1,
         },
     },
+    selected: {
+        backgroundColor: "#333 !important"
+    }
 })
+
+const mapStateToProps = state => {
+    return {
+        drawerOpen: state.interface.drawerOpen,
+        rooms: state.auth.room_list,
+        fetching_rooms: state.auth.fetching_rooms,
+        current_room: state.room.room_name,
+    }
+}
+
 
 export default connect(mapStateToProps, actions)(withStyles(styles)(Menu))

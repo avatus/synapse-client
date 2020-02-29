@@ -1,9 +1,11 @@
 import * as TYPES from '../actions/auth/auth.types'
+import * as messageTYPES from '../actions/messages/messages.types'
+import * as roomTYPES from '../actions/rooms/room.types'
 
 const initialState = {
     user: null,
     human: false,
-    room_list: [],
+    room_list: {},
     fetching_rooms: true,
 }
 
@@ -24,6 +26,16 @@ export default (state = {}, action) => {
                 ...state,
                 room_list: action.payload,
                 fetching_rooms: false,
+            }
+        case roomTYPES.SET_ROOM:
+            return {
+                ...state,
+                room_list: {...state.room_list, [action.payload.room_name]: {unread: 0}}
+            }
+        case messageTYPES.INACTIVE_ROOM_MESSAGE:
+            return {
+                ...state,
+                room_list: {...state.room_list, [action.payload.room]: action.payload.update,  }
             }
         default:
             return {...initialState, ...state}
