@@ -11,7 +11,7 @@ const RandomIcon = () => {
     }, 100)
 
     return (
-        <Blockies seed={seed} scale={3} />
+        <Blockies seed={seed} scale={4} />
     )
 }
 

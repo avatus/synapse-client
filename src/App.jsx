@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native-web'
 import { connect } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import * as messageActions from './actions/messages/message.actions'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import * as authActions from './actions/auth/auth.actions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { createBrowserHistory } from "history";
 import Routes from './routes'
 import { GuardSpinner } from 'react-spinners-kit'
 import Recaptcha from './components/Captcha'
@@ -24,6 +26,17 @@ const checkStorage = () => {
     return false;
   }
 }
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+  typography: {
+    fontFamily:"Roboto Mono"
+  }
+});
+
+export const history = createBrowserHistory()
 
 
 function App(props) {
@@ -54,13 +67,15 @@ function App(props) {
     )
   }
   return (
-    <View>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-      <ToastContainer 
-      />
-    </View>
+    <ThemeProvider theme={darkTheme}>
+      <View>
+        <Router history={history}>
+          <Routes />
+        </Router>
+        <ToastContainer 
+        />
+      </View>
+    </ThemeProvider>
   )
 }
 

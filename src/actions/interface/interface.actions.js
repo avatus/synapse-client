@@ -38,3 +38,11 @@ export const openMenu = () => dispatch => {
 export const closeMenu = () => dispatch => {
     return dispatch({ type: TYPES.CLOSE_MENU })
 }
+
+export const openJoinDialog = () => dispatch => {
+    return dispatch({ type: TYPES.OPEN_JOIN_DIALOG })
+}
+
+export const closeJoinDialog = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_JOIN_DIALOG })
+}

@@ -1,2 +1,4 @@
 export const OPEN_MENU = "OPEN_MENU"
 export const CLOSE_MENU = "CLOSE_MENU"
+export const OPEN_JOIN_DIALOG = "OPEN_JOIN_DIALOG"
+export const CLOSE_JOIN_DIALOG = "CLOSE_JOIN_DIALOG"

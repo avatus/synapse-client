@@ -34,6 +34,7 @@ const Menu = props => {
         rooms,
         fetching_rooms,
         closeMenu,
+        openJoinDialog,
     } = props
 
 
@@ -59,7 +60,8 @@ const Menu = props => {
                             badge: classes.badgeDefault,
                             colorPrimary: classes.badgeColor
                         }}
-                        badgeContent={room_data.unread}>
+                        badgeContent={room_data.unread}
+                        >
                     <Blockies seed={room_name} scale={3} />
                     </Badge>
                 </ListItemIcon>
@@ -127,13 +129,14 @@ const Menu = props => {
                                 style={{
                                     color: "#aaa"
                                 }}
+                                onClick={openJoinDialog}
                                 dense
                                 button
                                 key={`00000002`}>
                                 <ListItemIcon>
                                     <AddBoxRoundedIcon style={{ color: "#777" }} />
                                 </ListItemIcon>
-                                <ListItemText>Join Room</ListItemText>
+                                <ListItemText>Join Synapse</ListItemText>
                             </ListItem>
                             {
                                 fetching_rooms &&
@@ -178,8 +181,8 @@ const styles = theme => ({
         transition: '0.2s'
     },
     badgeColor: {
-        backgroundColor: "#444",
-        color: "#29b6f6",
+        backgroundColor: "#29b6f6",
+        color: "#222",
     },
     drawer: {
         width: drawerWidth,
@@ -189,6 +192,7 @@ const styles = theme => ({
     drawerPaper: {
         overflowX: 'hidden',
         backgroundColor: "#222 !important",
+        borderColor: "#282828 !important"
     },
     drawerOpen: {
         width: drawerWidth,

@@ -5,6 +5,8 @@ const initialState = {
     room_name: null,
     users: 0,
     history: [],
+    allRooms: [],
+    fetching_all_rooms: true
 }
 
 export default (state = {}, action) => {
@@ -35,6 +37,12 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 users: state.users + 1
+            }
+        case TYPES.SET_ALL_ROOMS:
+            return {
+                ...state,
+                allRooms: action.payload,
+                fetching_all_rooms: false,
             }
         default:
             return {...initialState, ...state}

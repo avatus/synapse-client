@@ -17,3 +17,13 @@ export const unsetRoom = room_id => dispatch => {
     socket.emit('USER_LEFT_ROOM', room_id)
     return dispatch({ type: TYPES.UNSET_ROOM })
 }
+
+export const setAllRooms = () => dispatch => {
+    axios.get(`${process.env.REACT_APP_ROOT_URL}/sockets/get_all_rooms`)
+    .then(response => {
+        return dispatch({ type: TYPES.SET_ALL_ROOMS, payload: response.data })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}

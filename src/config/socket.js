@@ -53,7 +53,6 @@ socket.on('USER_LEFT_ROOM', room => {
 })
 
 socket.on('USER_JOINED_ROOM', ({room, id_token: user_token}) => {
-    console.log(`${user_token} joined ${room}`)
     const { room_name } = store.getState().room
     if (room_name === room && id_token !== user_token) {
         store.dispatch({ type: roomTypes.USER_JOINED_ROOM })

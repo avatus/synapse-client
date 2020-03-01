@@ -8,6 +8,8 @@ import { Dimensions } from 'react-native-web'
 import { withStyles } from '@material-ui/core/styles'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
+import JoinRoomDialog from '../components/JoinRoomDialog'
+
 import Dashboard from '../components/Dashboard'
 import Room from '../components/Room'
 import { drawerWidth } from '../config/constants'
@@ -61,6 +63,7 @@ const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
                     <Redirect to="/" />
                 </Switch>
             </div>
+            <JoinRoomDialog />
         </div>
     )
 }

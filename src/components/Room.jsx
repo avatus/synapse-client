@@ -60,21 +60,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
     },
-    box: {
-        overflowY: "overlay",
-        minHeight: `calc(${vh}vh - ${58}px)`,
-        maxHeight: `calc(${vh}vh - ${58}px)`,
-        listStyleType: "none",
-        display: 'flex',
-        flexDirection: "column-reverse",
-        '&::-webkit-scrollbar': {
-            width: '0.4em'
-        },
-        '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#666',
-            borderRadius: "5px"
-        }
-    }
 })
 
 const mapStateToProps = state => {

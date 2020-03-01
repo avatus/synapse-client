@@ -2,6 +2,7 @@ import * as TYPES from '../actions/interface/interface.types'
 
 const initialState = {
     drawerOpen: false,
+    joinDialog: false,
 }
 
 export default (state = {}, action) => {
@@ -15,6 +16,17 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 drawerOpen: false, 
+            }
+
+        case TYPES.OPEN_JOIN_DIALOG:
+            return {
+                ...state,
+                joinDialog: true
+            }
+        case TYPES.CLOSE_JOIN_DIALOG:
+            return {
+                ...state,
+                joinDialog: false
             }
         default:
             return {...initialState, ...state}
