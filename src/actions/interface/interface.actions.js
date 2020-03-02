@@ -46,3 +46,11 @@ export const openJoinDialog = () => dispatch => {
 export const closeJoinDialog = () => dispatch => {
     return dispatch({ type: TYPES.CLOSE_JOIN_DIALOG })
 }
+
+export const openIdTokenDialog = () => dispatch => {
+    return dispatch({ type: TYPES.OPEN_ID_TOKEN_DIALOG })
+}
+
+export const closeIdTokenDialog = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_ID_TOKEN_DIALOG })
+}

@@ -72,8 +72,7 @@ function App(props) {
         <Router history={history}>
           <Routes />
         </Router>
-        <ToastContainer 
-        />
+        <ToastContainer />
       </View>
     </ThemeProvider>
   )

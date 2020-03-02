@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import JoinRoomDialog from '../components/JoinRoomDialog'
+import IdTokenDialog from '../components/IdTokenDialog'
 
 import Dashboard from '../components/Dashboard'
 import Room from '../components/Room'
@@ -64,6 +65,7 @@ const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
                 </Switch>
             </div>
             <JoinRoomDialog />
+            <IdTokenDialog />
         </div>
     )
 }

@@ -3,6 +3,7 @@ import * as roomActions from '../actions/rooms/room.actions'
 import { connect } from 'react-redux'
 import { Dimensions, View, StyleSheet, KeyboardAvoidingView, Text } from 'react-native-web'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Blockie from 'react-blockies'
@@ -48,7 +49,7 @@ const Dashboard = props => {
         <View style={styles.dashboardRoot}>
             <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.roomBox}>
-                    <Text style={styles.text}>Synapse Index</Text>
+                    <Typography paragraph>Synapse Index</Typography>
                     <Grid 
                         wrap="wrap"
                         container 

@@ -106,7 +106,7 @@ const JoinRoomDialog = ({ classes, joinDialogOpen, closeJoinDialog }) => {
                             className={classes.root}>
                             <InputBase
                                 inputProps={{
-                                    maxlength: 12
+                                    maxLength: 12
                                 }}
                                 value={roomName}
                                 onChange={handleChange}

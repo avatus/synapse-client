@@ -3,6 +3,7 @@ import * as TYPES from '../actions/interface/interface.types'
 const initialState = {
     drawerOpen: false,
     joinDialog: false,
+    idTokenDialog: false,
 }
 
 export default (state = {}, action) => {
@@ -27,6 +28,16 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 joinDialog: false
+            }
+        case TYPES.OPEN_ID_TOKEN_DIALOG:
+            return {
+                ...state,
+                idTokenDialog: true
+            }
+        case TYPES.CLOSE_ID_TOKEN_DIALOG:
+            return {
+                ...state,
+                idTokenDialog: false
             }
         default:
             return {...initialState, ...state}
