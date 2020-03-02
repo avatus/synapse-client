@@ -18,7 +18,6 @@ axios.defaults.headers.common['X-ID-TOKEN'] = id_token
 
 const socket = io(process.env.REACT_APP_ROOT_URL, {
     query: { id_token },
-    reconnectionAttempts: 3,
     reconnectionDelay: 10000,
 })
 
@@ -32,6 +31,16 @@ socket.on('connect', () => {
 
 socket.on('disconnect_message', message => {
     interfaceActions.showMessage(message, "warning")
+})
+
+socket.on('reconnect', () => {
+    let sendBuffer = socket.sendBuffer
+    setTimeout(() => {
+        socket.emit('USER_RECONNECTED', {id: id_token})
+        sendBuffer.forEach(buf => {
+            socket.emit(buf.data[0], buf.data[1], buf.options)
+        })
+    }, 100)
 })
 
 socket.on('connect_error', error => {

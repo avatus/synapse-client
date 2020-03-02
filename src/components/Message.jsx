@@ -24,6 +24,7 @@ const Message = props => {
 
     return (
       <ListItem
+        disabled={!message.delivered}
         key={message.id}
         className={classes.message}>
         <ListItemAvatar>
@@ -35,8 +36,10 @@ const Message = props => {
         <ListItemText
           primary={message.text}
           secondary={
-            <span style={{color: "#666"}}>{
-              `${message.user.substring(message.user.length - 5)} - ${time}`}
+            <span style={{color: "#666"}}>{message.delivered ?
+              `${message.user.substring(message.user.length - 5)} - ${time}`
+              : 'Sending...'
+            }
             </span>}
         />
       </ListItem>

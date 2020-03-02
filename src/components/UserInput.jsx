@@ -26,8 +26,10 @@ const UserInput = props => {
             id: uuid(),
             user: user,
             text: input,
+            delivered: false,
             time: moment(),
         }
+
         sendMessage(current_room, newMessage)
         setInput("")
     }

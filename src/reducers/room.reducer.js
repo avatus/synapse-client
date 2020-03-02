@@ -44,6 +44,11 @@ export default (state = {}, action) => {
                 allRooms: action.payload,
                 fetching_all_rooms: false,
             }
+        case messageTYPES.UPDATE_USER_MESSAGE_DELIVERED:
+            return {
+                ...state,
+                history: action.payload,
+            }
         default:
             return {...initialState, ...state}
     }
