@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as authActions from '../actions/auth/auth.actions'
@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
 import GroupIcon from '@material-ui/icons/Group';
 import { drawerWidth } from '../config/constants'
+import useInterval from '@use-it/interval';
+import socket from '../config/socket'
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,10 +52,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = props => {
-    const { user, drawerOpen, room_users, current_room, openIdTokenDialog, leaveRoom } = props
+    const { user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom } = props
     const [anchorEl, setAnchorEl] = useState(null);
     const [roomAnchorEl, setRoomAnchorEl] = useState(null);
     const classes = useStyles()
+
+    useEffect(() => {
+        socket.emit('GET_ROOM_USER_COUNT', current_room)
+    }, [current_room])
+
+    useInterval(() => {
+        if (current_room) {
+            socket.emit('GET_ROOM_USER_COUNT', current_room)
+        }
+    }, current_room ? 30000 : null)
 
     const userImage = `https://api.adorable.io/avatars/30/${user}`
 

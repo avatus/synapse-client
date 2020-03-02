@@ -29,14 +29,21 @@ export default (state = {}, action) => {
                 history: [...state.history, action.payload]
             }
         case TYPES.USER_LEFT_ROOM:
+            console.log('user left room')
             return {
                 ...state,
                 users: state.users - 1
             }
         case TYPES.USER_JOINED_ROOM:
+            console.log('user left room')
             return {
                 ...state,
                 users: state.users + 1
+            }
+        case TYPES.UPDATE_ROOM_USER_COUNT:
+            return {
+                ...state,
+                users: action.payload
             }
         case TYPES.SET_ALL_ROOMS:
             return {

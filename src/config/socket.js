@@ -2,9 +2,10 @@ import io from 'socket.io-client'
 import axios from 'axios'
 import { store } from '../index'
 import * as interfaceActions from '../actions/interface/interface.actions'
+import * as roomTypes from '../actions/rooms/room.types'
 import * as authActions from '../actions/auth/auth.actions'
 import * as TYPES from '../actions/auth/auth.types'
-import * as roomTypes from '../actions/rooms/room.types'
+// import * as roomTypes from '../actions/rooms/room.types'
 import randomstring from 'randomstring'
 let failedOnce = false
 
@@ -35,12 +36,13 @@ socket.on('disconnect_message', message => {
 
 socket.on('reconnect', () => {
     let sendBuffer = socket.sendBuffer
+    console.log(sendBuffer)
     setTimeout(() => {
         socket.emit('USER_RECONNECTED', {id: id_token})
         sendBuffer.forEach(buf => {
             socket.emit(buf.data[0], buf.data[1], buf.options)
         })
-    }, 100)
+    }, 1000)
 })
 
 socket.on('connect_error', error => {
@@ -54,19 +56,28 @@ socket.on('USER_ROOM_LIST', rooms => {
     authActions.setUserRooms(rooms)
 })
 
-socket.on('USER_LEFT_ROOM', room => {
+socket.on('UPDATE_ROOM_USER_COUNT', ({room, users}) => {
     const { room_name } = store.getState().room
     if (room_name === room) {
-        store.dispatch({ type: roomTypes.USER_LEFT_ROOM })
+        store.dispatch({ type: roomTypes.UPDATE_ROOM_USER_COUNT, payload: users })
     }
 })
 
-socket.on('USER_JOINED_ROOM', ({room, id_token: user_token}) => {
-    const { room_name } = store.getState().room
-    if (room_name === room && id_token !== user_token) {
-        store.dispatch({ type: roomTypes.USER_JOINED_ROOM })
-    }
-})
+// socket.on('USER_LEFT_ROOM', room => {
+//     const { room_name } = store.getState().room
+//     console.log(room_name, room)
+//     if (room_name === room) {
+//         store.dispatch({ type: roomTypes.USER_LEFT_ROOM })
+//     }
+// })
+
+// socket.on('USER_JOINED_ROOM', ({room, id_token: user_token}) => {
+//     const { room_name } = store.getState().room
+//     if (room_name === room && id_token !== user_token) {
+//         console.log(user_token, id_token)
+//         store.dispatch({ type: roomTypes.USER_JOINED_ROOM })
+//     }
+// })
 
 socket.on('reconnect_failed', () => {
     interfaceActions.showMessage("Connection to websocket failed.","error")

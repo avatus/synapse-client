@@ -24,6 +24,7 @@ const Room = ({ room_name, getRoom, unsetRoom, match }) => {
         }
 
     }, [id, getRoom, unsetRoom])
+
     if (room_name === null) {
         return (
             <View style={styles.dashboardRoot}>
