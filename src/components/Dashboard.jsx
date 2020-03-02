@@ -24,20 +24,6 @@ const Dashboard = props => {
         setAllRooms()
     }, 30000)
 
-    // const renderRooms = () => {
-    //     return (
-    //         <Grid 
-    //             className={classes.roomBox}
-    //             spacing={1}
-    //         >
-    //             {mynewrooms.map(r => (
-    //                 <Grid key={r} item >
-    //                     <div>testing</div>
-    //                 </Grid>
-    //             ))}
-    //         </Grid>
-    //     )
-    // }
 
     if (fetching_all_rooms) {
         return (

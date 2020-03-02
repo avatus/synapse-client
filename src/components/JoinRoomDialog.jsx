@@ -54,6 +54,7 @@ const JoinRoomDialog = ({ classes, joinDialogOpen, closeJoinDialog }) => {
     }
 
     const joinRoom = () => {
+        closeJoinDialog()
         history.push(`/synapse/${roomName}`)
     }
 

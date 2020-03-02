@@ -36,7 +36,6 @@ socket.on('disconnect_message', message => {
 
 socket.on('reconnect', () => {
     let sendBuffer = socket.sendBuffer
-    console.log(sendBuffer)
     setTimeout(() => {
         socket.emit('USER_RECONNECTED', {id: id_token})
         sendBuffer.forEach(buf => {

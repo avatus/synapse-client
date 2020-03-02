@@ -15,15 +15,20 @@ const actions = {
 const width = Dimensions.get('window').width
 const vh = width > 520 ? 100 : 85
 
-const Room = ({ room_name, getRoom, unsetRoom, match }) => {
+const Room = ({ room_name, getRoom, unsetRoom, match, history }) => {
     const { id } = match.params
     useEffect(() => {
+        
+        let reg = /^[a-z0-9]+$/i
+        if(!reg.test(id)){
+            return history.replace('/')
+        }
         getRoom(id)
         return function cleanup () {
             unsetRoom(id) 
         }
 
-    }, [id, getRoom, unsetRoom])
+    }, [id, getRoom, unsetRoom, history])
 
     if (room_name === null) {
         return (
