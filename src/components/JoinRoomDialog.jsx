@@ -37,7 +37,8 @@ const JoinRoomDialog = ({ classes, joinDialogOpen, closeJoinDialog }) => {
     const [errorMessage, setErrorMessage] = useState("")
 
     const handleChange = event => {
-        setRoomName(event.target.value)
+        let goodRoomName = event.target.value.replace(/[^a-z0-9]/gi,'');
+        setRoomName(goodRoomName)
     }
 
     const joinRandomRoom = () => {
@@ -53,7 +54,6 @@ const JoinRoomDialog = ({ classes, joinDialogOpen, closeJoinDialog }) => {
     }
 
     const joinRoom = () => {
-        closeJoinDialog()
         history.push(`/synapse/${roomName}`)
     }
 

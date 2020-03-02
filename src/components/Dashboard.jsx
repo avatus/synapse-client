@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Blockie from 'react-blockies'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
+import useInterval from '@use-it/interval'
 
 const width = Dimensions.get('window').width
 const vh = width > 520 ? 100 : 85
@@ -18,6 +19,10 @@ const Dashboard = props => {
     useEffect(() => {
         setAllRooms()
     }, [setAllRooms])
+
+    useInterval(() => {
+        setAllRooms()
+    }, 30000)
 
     // const renderRooms = () => {
     //     return (
@@ -112,21 +117,6 @@ const styles = StyleSheet.create({
         color: "gainsboro",
         marginBottom: "1rem"
     },
-    // box: {
-    //     overflowY: "overlay",
-    //     minHeight: `calc(${vh}vh - ${58}px)`,
-    //     maxHeight: `calc(${vh}vh - ${58}px)`,
-    //     listStyleType: "none",
-    //     display: 'flex',
-    //     // flexDirection: "column-reverse",
-    //     '&::-webkit-scrollbar': {
-    //         width: '0.4em'
-    //     },
-    //     '&::-webkit-scrollbar-thumb': {
-    //         backgroundColor: '#666',
-    //         borderRadius: "5px"
-    //     }
-    // }
 })
 
 const mapStateToProps = state => {
