@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import * as roomActions from '../actions/rooms/room.actions'
 import { connect } from 'react-redux'
-import { Dimensions, View, StyleSheet, KeyboardAvoidingView, Text } from 'react-native-web'
+import { Dimensions, View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
 import Grid from '@material-ui/core/Grid'
+import { GuardSpinner } from 'react-spinners-kit'
 import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -15,7 +16,7 @@ const width = Dimensions.get('window').width
 const vh = width > 520 ? 100 : 85
 
 const Dashboard = props => {
-    const { classes, setAllRooms, fetching_all_rooms, rooms } = props
+    const { classes, setAllRooms, fetching_rooms, rooms } = props
     useEffect(() => {
         setAllRooms()
     }, [setAllRooms])
@@ -24,26 +25,30 @@ const Dashboard = props => {
         setAllRooms()
     }, 30000)
 
-
-    if (fetching_all_rooms) {
+    if (fetching_rooms) {
         return (
             <View style={styles.dashboardRoot}>
                 <KeyboardAvoidingView style={styles.container}>
-                    <View>
-                        <Text style={styles.text}>Synapse Index</Text>
+                    <View style={styles.loading}>
+                        <GuardSpinner />
+                        <Typography 
+                            style={{color: "#666",marginTop: "1rem"}}
+                            variant="caption"
+                            align="center">loading synapse index</Typography>
                     </View>
                 </KeyboardAvoidingView>
             </View>
         )
     }
+
     return (
         <View style={styles.dashboardRoot}>
             <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.roomBox}>
                     <Typography paragraph>Synapse Index</Typography>
-                    <Grid 
+                    <Grid
                         wrap="wrap"
-                        container 
+                        container
                         spacing={1}>
                         {rooms.map(r => (
                             <Grid key={r._id} item xs={6} md={3}>
@@ -53,22 +58,21 @@ const Dashboard = props => {
                                     to={`/synapse/${r.name}`}
                                     className={classes.roomView}
                                 >
-                                    <Grid 
-                                        container 
-                                        spacing={2} 
+                                    <Grid
+                                        container
+                                        spacing={2}
                                         alignItems="center">
-                                            <Grid item>
-                                                <Blockie seed={r.name} scale={3} />
-                                            </Grid>
-                                            <Grid item>
-                                                <ListItemText>{r.name}</ListItemText>
-                                            </Grid>
+                                        <Grid item>
+                                            <Blockie seed={r.name} scale={3} />
+                                        </Grid>
+                                        <Grid item>
+                                            <ListItemText>{r.name}</ListItemText>
+                                        </Grid>
                                     </Grid>
                                 </ListItem>
                             </Grid>
                         ))}
                     </Grid>
-                    {/* {renderRooms()} */}
                 </View>
             </KeyboardAvoidingView>
         </View>
@@ -79,7 +83,6 @@ const muiStyles = theme => ({
     roomView: {
         borderLeft: "1px solid #00b676",
         backgroundColor: "#333",
-        // padding: "0.5rem",
         marginBottom: 10,
     },
 })
@@ -96,6 +99,11 @@ const styles = StyleSheet.create({
         minHeight: `${vh}vh`,
         padding: "0.5rem",
     },
+    loading: {
+        flex: 1,
+        marginTop: "10%",
+        alignItems: 'center'
+      },
     container: {
         // flexDirection: 'column',
     },
@@ -106,9 +114,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    return { 
+    return {
         user: state.auth.user,
-        rooms: state.room.allRooms
+        rooms: state.room.allRooms,
+        fetching_rooms: state.auth.fetching_rooms
     }
 }
 
