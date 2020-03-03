@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Dimensions, View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
 import * as roomActions from '../actions/rooms/room.actions'
 import * as authActions from '../actions/auth/auth.actions'
 import MessageList from './MessageList'
 import { GuardSpinner } from 'react-spinners-kit'
 import UserInput from './UserInput'
+import { withStyles } from '@material-ui/core/styles'
 
 const actions = {
     ...roomActions,
     ...authActions,
 }
 
-const width = Dimensions.get('window').width
-const vh = width > 520 ? 100 : 85
+// const width = Dimensions.get('window').width
+// const vh = width > 520 ? 100 : 85
 
-const Room = ({ room_name, getRoom, unsetRoom, match, history }) => {
+const Room = ({ room_name, getRoom, unsetRoom, match, history, classes }) => {
     const { id } = match.params
     useEffect(() => {
         
@@ -39,32 +40,37 @@ const Room = ({ room_name, getRoom, unsetRoom, match, history }) => {
             </View>
         )
     }
+
     return (
-        <View style={styles.dashboardRoot}>
+        <div className={classes.dashboardRoot}>
             <KeyboardAvoidingView style={styles.container}>
-                <View style={styles.box}>
-                    <MessageList />
-                </View>
+                {/* <View style={styles.box}>
+                </View> */}
                 <UserInput />
+                <MessageList />
             </KeyboardAvoidingView>
-        </View>
+        </div>
     )
 }
 
-const styles = StyleSheet.create({
+const muiStyles = theme => ({
     dashboardRoot: {
-        minHeight: `${vh}vh`,
+        marginTop: 48,
         padding: "0.5rem",
-        flex: 1,
+        maxHeight: "100%"
     },
+})
+
+const styles = StyleSheet.create({
     loading: {
         flex: 1,
         marginTop: "10%",
         alignItems: 'center'
     },
     container: {
-        flexDirection: 'column',
-        flex: 1,
+        // position: 'absolute',
+        // bottom: '0',
+        flexDirection: 'column-reverse',
     },
 })
 
@@ -75,4 +81,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, actions)(Room)
+export default connect(mapStateToProps, actions)(withStyles(muiStyles)(Room))

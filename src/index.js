@@ -5,6 +5,7 @@ import App from './App.jsx';
 import { Provider } from 'react-redux'
 import configureStore from './config/redux-store'
 import 'typeface-roboto-mono'
+import 'react-app-polyfill/ie9';
 
 export const store = configureStore()
 

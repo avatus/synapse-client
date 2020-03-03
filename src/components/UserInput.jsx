@@ -69,8 +69,10 @@ const UserInput = props => {
 const styles = StyleSheet.create({
     root: {
         width: "100%",
-        position: 'absolute',
-        bottom: 0
+        // display: 'flex',
+        // flex: 1,
+        // position: 'absolute',
+        // bottom: 0
     },
 })
 

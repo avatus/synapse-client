@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import { GuardSpinner } from 'react-spinners-kit'
 import { View, StyleSheet } from 'react-native-web'
 import { connect } from 'react-redux'
-import { Dimensions } from 'react-native-web'
+// import { Dimensions } from 'react-native-web'
 import { withStyles } from '@material-ui/core/styles'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
@@ -15,12 +15,12 @@ import Dashboard from '../components/Dashboard'
 import Room from '../components/Room'
 import { drawerWidth } from '../config/constants'
 
-const width = Dimensions.get('window').width
-const vh = width > 520 ? 100 : 85
+// const width = Dimensions.get('window').width
+// const vh = width > 520 ? 100 : 85
 
 const muiStyles = theme => ({
     routerRoot: {
-        minHeight: `${vh}vh`,
+        marginTop: 48,
     },
     drawerOpen: {
         marginLeft: drawerWidth,
@@ -53,6 +53,7 @@ const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
     }
     return (
         <div 
+            style={{maxHeight: "100vh", overflow: "hidden"}}
             className={drawerOpen ? classes.drawerOpen : classes.drawerClose } 
         >
             <Menu />

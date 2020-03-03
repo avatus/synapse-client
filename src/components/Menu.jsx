@@ -188,6 +188,9 @@ const styles = theme => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
+        '&::-webkit-scrollbar': {
+            display: 'none !important'
+        },
     },
     drawerPaper: {
         overflowX: 'hidden',

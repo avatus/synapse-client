@@ -1,37 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
 import Message from './Message'
-import { View, StyleSheet, Dimensions } from 'react-native-web'
+import { withStyles } from '@material-ui/core/styles'
+import { animateScroll } from "react-scroll";
 
-const width = Dimensions.get('window').width
-const vh = width > 520 ? 100 : 8
+const scrollMessages = () => {
+    animateScroll.scrollToBottom({
+        duration: 0,
+        containerId: "message-box"
+    });
+}
 
 const MessageList = props => {
-    const { messages } = props
+    const { messages, classes } = props
+    useEffect(() => {
+        scrollMessages()
+    })
     return (
-        <View style={styles.box}>
+        <div id="message-box" className={classes.box}>
             <List>
                 {messages.map(message => <Message key={message.id} message={message} />)}
             </List>
-        </View>
+        </div>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = theme => ({
     box: {
-        overflowY: "overlay",
-        minHeight: `calc(${vh}vh - ${58}px)`,
-        maxHeight: `calc(${vh}vh - ${58}px)`,
+        overflowY: "auto",
+        minHeight: `calc(100vh - 100px)`,
+        maxHeight: `calc(100vh - 100px)`,
         listStyleType: "none",
-        display: 'flex',
-        flexDirection: "column-reverse",
         '&::-webkit-scrollbar': {
             width: '0.4em'
         },
         '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#666',
-            borderRadius: "5px"
+            borderRadius: 2,
+            backgroundColor: '#444',
+            outline: '1px solid slategrey'
         }
     }
 })
@@ -40,4 +47,4 @@ const mapStateToProps = state => {
     return { messages: state.room.history }
 }
 
-export default connect(mapStateToProps)(MessageList)
+export default connect(mapStateToProps)(withStyles(styles)(MessageList))

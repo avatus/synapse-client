@@ -1,19 +1,51 @@
 import React, { useEffect } from 'react'
 import * as roomActions from '../actions/rooms/room.actions'
 import { connect } from 'react-redux'
-import { Dimensions, View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
-import Grid from '@material-ui/core/Grid'
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
+// import Grid from '@material-ui/core/Grid'
+import { VirtuosoGrid } from 'react-virtuoso'
 import { GuardSpinner } from 'react-spinners-kit'
 import Typography from '@material-ui/core/Typography'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import styled from '@emotion/styled'
+// import ListItem from '@material-ui/core/ListItem'
+// import ListItemText from '@material-ui/core/ListItemText'
 import Blockie from 'react-blockies'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import useInterval from '@use-it/interval'
+// import randomString from 'randomstring'
 
-const width = Dimensions.get('window').width
-const vh = width > 520 ? 100 : 85
+// const width = Dimensions.get('window').width
+// const vh = width > 520 ? 100 : 85
+
+const ItemContainer = styled.div`
+  width: 25%;
+  display: flex;
+  flex: none;
+  align-content: stretch;
+
+  @media (max-width: 1024px) {
+    width: 25%;
+  }
+
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`
+
+const ItemWrapper = styled.div`
+    flex: 1;
+  }
+`
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
 
 const Dashboard = props => {
     const { classes, setAllRooms, fetching_rooms, rooms } = props
@@ -25,14 +57,30 @@ const Dashboard = props => {
         setAllRooms()
     }, 30000)
 
+    const renderRoom = r => {
+        if (r) {
+            return (
+                <Link 
+                    to={`/synapse/${r.name}`}>
+                    <div
+                        className={classes.roomView}>
+                        <Blockie
+                            seed={r.name} scale={3} />
+                        <Typography style={{ marginLeft: "0.5rem" }}>{r.name}</Typography>
+                    </div>
+                </Link>
+            )
+        }
+    }
+
     if (fetching_rooms) {
         return (
             <View style={styles.dashboardRoot}>
                 <KeyboardAvoidingView style={styles.container}>
                     <View style={styles.loading}>
                         <GuardSpinner />
-                        <Typography 
-                            style={{color: "#666",marginTop: "1rem"}}
+                        <Typography
+                            style={{ color: "#666", marginTop: "1rem" }}
                             variant="caption"
                             align="center">loading synapse index</Typography>
                     </View>
@@ -42,68 +90,62 @@ const Dashboard = props => {
     }
 
     return (
-        <View style={styles.dashboardRoot}>
-            <KeyboardAvoidingView style={styles.container}>
-                <View style={styles.roomBox}>
-                    <Typography paragraph>Synapse Index</Typography>
-                    <Grid
-                        wrap="wrap"
-                        container
-                        spacing={1}>
-                        {rooms.map(r => (
-                            <Grid key={r._id} item xs={6} md={3}>
-                                <ListItem
-                                    button
-                                    component={Link}
-                                    to={`/synapse/${r.name}`}
-                                    className={classes.roomView}
-                                >
-                                    <Grid
-                                        container
-                                        spacing={2}
-                                        alignItems="center">
-                                        <Grid item>
-                                            <Blockie seed={r.name} scale={3} />
-                                        </Grid>
-                                        <Grid item>
-                                            <ListItemText>{r.name}</ListItemText>
-                                        </Grid>
-                                    </Grid>
-                                </ListItem>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </View>
-            </KeyboardAvoidingView>
-        </View>
+        <div className={classes.dashboardRoot}>
+            <View style={styles.roomBox}>
+                <Typography paragraph>Synapse Index</Typography>
+                <VirtuosoGrid
+                    totalCount={rooms.length}
+                    overscan={40}
+                    ItemContainer={ItemContainer}
+                    ListContainer={ListContainer}
+                    item={index => <ItemWrapper style={{ padding: "0.5rem" }}>{renderRoom(rooms[index])}</ItemWrapper>}
+                    className={classes.roomBox}
+                />
+            </View>
+        </div>
     )
 }
 
 const muiStyles = theme => ({
     roomView: {
+        display: 'flex',
+        padding: "0.5rem",
         borderLeft: "1px solid #00b676",
         backgroundColor: "#333",
-        marginBottom: 10,
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: "#373737"
+        },
+        transition: '0.2s'
     },
+    dashboardRoot: {
+        marginTop: 48,
+        // minHeight: `${vh}vh`,
+        padding: "0.5rem",
+        maxHeight: "100%",
+    },
+    roomBox: {
+        height: "calc(100vh - 120px) !important",
+        '&::-webkit-scrollbar': {
+            display: 'none'
+        },
+    }
 })
 
 const styles = StyleSheet.create({
     roomBox: {
-        overflowY: "auto",
-        overflowX: "hidden",
-        minHeight: `calc(${vh}vh - ${110}px)`,
-        maxHeight: `calc(${vh}vh - ${110}px)`,
-    },
-    dashboardRoot: {
-        marginTop: 48,
-        minHeight: `${vh}vh`,
-        padding: "0.5rem",
+        // overflowY: "auto",
+        // overflowX: "hidden",
+        minHeight: "100%",
+        // minHeight: `calc(${vh}vh - ${110}px)`,
+        // maxHeight: `calc(${vh}vh - ${110}px)`,
+        // backgroundColor: "#666"
     },
     loading: {
         flex: 1,
         marginTop: "10%",
         alignItems: 'center'
-      },
+    },
     container: {
         // flexDirection: 'column',
     },
