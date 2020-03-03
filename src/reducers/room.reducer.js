@@ -27,7 +27,7 @@ export default (state = {}, action) => {
         case messageTYPES.ROOM_MESSAGE:
             return {
                 ...state,
-                history: [...state.history, action.payload]
+                history: [...state.history.slice(-100), action.payload]
             }
         case TYPES.USER_LEFT_ROOM:
             console.log('user left room')

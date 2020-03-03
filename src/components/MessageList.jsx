@@ -29,8 +29,8 @@ const MessageList = props => {
 const styles = theme => ({
     box: {
         overflowY: "auto",
-        minHeight: `calc(100vh - 100px)`,
-        maxHeight: `calc(100vh - 100px)`,
+        // minHeight: `calc(100vh - 100px)`,
+        // maxHeight: `calc(100vh - 100px)`,
         display: 'flex',
         flexDirection: "column-reverse",
         listStyleType: "none",
