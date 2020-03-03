@@ -20,6 +20,7 @@ export const unsetRoom = room_id => dispatch => {
 export const setAllRooms = () => dispatch => {
     axios.get(`${process.env.REACT_APP_ROOT_URL}/sockets/get_all_rooms`)
     .then(response => {
+        response.data.rooms.sort((a,b) => b.users-a.users)
         return dispatch({ type: TYPES.SET_ALL_ROOMS, payload: response.data })
     })
     .catch(err => {

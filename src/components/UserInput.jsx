@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as messageActions from '../actions/messages/message.actions'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Typography from '@material-ui/core/Typography'
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import moment from 'moment'
 import TextField from '@material-ui/core/TextField'
@@ -25,10 +26,11 @@ const actions = {
 const UserInput = props => {
     const { classes, user, sendMessage, current_room } = props
     const [input, setInput] = useState("")
+    const [error, setError] = useState("")
 
     const submitMessage = () => {
-        if (input.length < 1) {
-            return alert('Please enter a real message, fucker')
+        if (input.length <1) {
+            return setError('Please enter a message first.')
         }
         let newMessage = {
             id: uuid(),
@@ -38,12 +40,30 @@ const UserInput = props => {
             time: moment(),
         }
 
+        if (newMessage.text.length > 1000) {
+            return setError(`Your message is over the limit by ${newMessage.text.length-1000} characters.`)
+        }
         sendMessage(current_room, newMessage)
+        setError("")
         setInput("")
+    }
+
+    const handleChange = event => {
+        setError("")
+        setInput(event.target.value)
     }
 
     return (
         <div>
+            {
+                error !== "" &&
+            <Typography 
+                variant="caption" 
+                style={{
+                    color: "#ef5350",
+                    marginLeft: "1rem"
+                }}>{error}</Typography>
+            }
             <TextField
                 onFocus={scrollMessages}
                 InputProps={{
@@ -69,7 +89,7 @@ const UserInput = props => {
                         submitMessage()
                     }
                 }}
-                onChange={(event) => setInput(event.target.value)}
+                onChange={handleChange}
             />
         </div>
     )
