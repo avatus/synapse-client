@@ -2,6 +2,7 @@ import * as TYPES from '../actions/interface/interface.types'
 
 const initialState = {
     drawerOpen: false,
+    mobileDrawerOpen: false,
     joinDialog: false,
     idTokenDialog: false,
 }
@@ -17,6 +18,16 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 drawerOpen: false, 
+            }
+        case TYPES.OPEN_MOBILE_MENU:
+            return {
+                ...state,
+                mobileDrawerOpen: true, 
+            }
+        case TYPES.CLOSE_MOBILE_MENU:
+            return {
+                ...state,
+                mobileDrawerOpen: false, 
             }
 
         case TYPES.OPEN_JOIN_DIALOG:

@@ -49,6 +49,7 @@ const UserInput = props => {
                 InputProps={{
                     disableUnderline: true,
                     className: classes.inputText,
+                    startAdornment: <InputAdornment position="start">›</InputAdornment>,
                     endAdornment: <InputAdornment position="end">
                         <IconButton 
                             onClick={submitMessage}
@@ -60,7 +61,7 @@ const UserInput = props => {
                 }}
                 color="secondary"
                 fullWidth
-                placeholder="›"
+                placeholder="Enter a message..."
                 className={classes.userInput}
                 value={input}
                 onKeyDown={event => {

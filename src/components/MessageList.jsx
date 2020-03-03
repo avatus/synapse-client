@@ -16,7 +16,7 @@ const MessageList = props => {
     const { messages, classes } = props
     useEffect(() => {
         scrollMessages()
-    })
+    }, [messages])
     return (
         <div id="message-box" className={classes.box}>
             <List>

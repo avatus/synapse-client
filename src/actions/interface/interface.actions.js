@@ -39,6 +39,14 @@ export const closeMenu = () => dispatch => {
     return dispatch({ type: TYPES.CLOSE_MENU })
 }
 
+export const openMobileMenu = () => dispatch => {
+    return dispatch({ type: TYPES.OPEN_MOBILE_MENU })
+}
+
+export const closeMobileMenu = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_MOBILE_MENU })
+}
+
 export const openJoinDialog = () => dispatch => {
     return dispatch({ type: TYPES.OPEN_JOIN_DIALOG })
 }
