@@ -90,12 +90,12 @@ const Dashboard = props => {
     }
 
 
-    rooms = []
-    for (var i = 0; i < 300; i++) {
-        rooms.push({
-            name: Math.floor(Math.random()*100000).toString()
-        })
-    }
+    // rooms = []
+    // for (var i = 0; i < 300; i++) {
+    //     rooms.push({
+    //         name: Math.floor(Math.random()*100000).toString()
+    //     })
+    // }
 
     return (
         <div className={classes.dashboardRoot}>
