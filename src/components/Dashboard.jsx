@@ -48,7 +48,7 @@ const ListContainer = styled.div`
 `
 
 const Dashboard = props => {
-    const { classes, setAllRooms, fetching_rooms, rooms } = props
+    let { classes, setAllRooms, fetching_rooms, rooms } = props
     useEffect(() => {
         setAllRooms()
     }, [setAllRooms])
@@ -89,6 +89,14 @@ const Dashboard = props => {
         )
     }
 
+
+    rooms = []
+    for (var i = 0; i < 300; i++) {
+        rooms.push({
+            name: Math.floor(Math.random()*100000).toString()
+        })
+    }
+
     return (
         <div className={classes.dashboardRoot}>
             <View style={styles.roomBox}>
@@ -100,6 +108,7 @@ const Dashboard = props => {
                     ListContainer={ListContainer}
                     item={index => <ItemWrapper style={{ padding: "0.5rem" }}>{renderRoom(rooms[index])}</ItemWrapper>}
                     className={classes.roomBox}
+                    style={{height: 200}}
                 />
             </View>
         </div>
@@ -128,6 +137,9 @@ const muiStyles = theme => ({
         height: "calc(100vh - 120px) !important",
         '&::-webkit-scrollbar': {
             display: 'none'
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: "calc(100vh - 15rem) !important",
         },
     }
 })

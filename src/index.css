@@ -1,7 +1,7 @@
 body {
   margin: 0;
   max-height: 100vh;
-  /* overflow: hidden; */
+  overflow: hidden;
   background-color: #222222;
   color: #DDDDDD;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

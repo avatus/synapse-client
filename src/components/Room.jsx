@@ -7,6 +7,7 @@ import MessageList from './MessageList'
 import { GuardSpinner } from 'react-spinners-kit'
 import UserInput from './UserInput'
 import { withStyles } from '@material-ui/core/styles'
+import useWindowSize from '../utils/useWindowSize'
 
 const actions = {
     ...roomActions,
@@ -15,11 +16,10 @@ const actions = {
 
 // const width = Dimensions.get('window').width
 // const vh = width > 520 ? 100 : 85
-
 const Room = ({ room_name, getRoom, unsetRoom, match, history, classes }) => {
     const { id } = match.params
+    const size = useWindowSize();
     useEffect(() => {
-        
         let reg = /^[a-z0-9]+$/i
         if(!reg.test(id)){
             return history.replace('/')
@@ -43,11 +43,13 @@ const Room = ({ room_name, getRoom, unsetRoom, match, history, classes }) => {
 
     return (
         <div className={classes.dashboardRoot}>
-            <KeyboardAvoidingView style={styles.container}>
-                {/* <View style={styles.box}>
-                </View> */}
-                <UserInput />
-                <MessageList />
+            <KeyboardAvoidingView>
+                <div 
+                    style={{height: size.height-65}}
+                    className={classes.container}>
+                    <UserInput />
+                    <MessageList />
+                </div>
             </KeyboardAvoidingView>
         </div>
     )
@@ -59,6 +61,10 @@ const muiStyles = theme => ({
         padding: "0.5rem",
         maxHeight: "100%"
     },
+    container: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+    },
 })
 
 const styles = StyleSheet.create({
@@ -66,11 +72,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: "10%",
         alignItems: 'center'
-    },
-    container: {
-        // position: 'absolute',
-        // bottom: '0',
-        flexDirection: 'column-reverse',
     },
 })
 

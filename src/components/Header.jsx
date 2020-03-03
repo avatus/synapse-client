@@ -9,7 +9,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar'
-import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
 import GroupIcon from '@material-ui/icons/Group';
 import { drawerWidth } from '../config/constants'
@@ -69,46 +68,6 @@ const Header = props => {
 
     const userImage = `https://api.adorable.io/avatars/30/${user}`
 
-    const roomStats = () => {
-        return (
-            <div className={classes.title}>
-                <Grid
-                    alignItems="center"
-                    spacing={1}
-                    container>
-                    <Grid item style={{ marginRight: "1rem" }}>
-                        <Grid
-                            spacing={1}
-                            alignItems="center"
-                            container>
-                            <Grid item>
-                                <Blockie scale={3} seed={current_room} />
-                            </Grid>
-                            <Grid item>
-                                <Typography
-                                    onClick={current_room ? handleRoomClick: null} 
-                                >
-                                    {current_room}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Grid
-                            alignItems="center"
-                            container>
-                            <Grid item>
-                                <GroupIcon style={{ color: "#69f0ae", height: 16, width: 16 }} />
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="caption">{room_users}</Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </div>
-        )
-    }
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -135,11 +94,44 @@ const Header = props => {
         <div className={classes.root}>
             <AppBar className={classes.appbar} position="absolute">
                 <Toolbar
+                    style={{ display: 'flex' }}
                     className={drawerOpen ? classes.drawerOpen : classes.drawerClose}
                     variant="dense">
-                    {current_room ? roomStats() : <div className={classes.title} />}
-                    <div>
-                        <Grid container
+                        {
+                            !current_room && <div style={{flex: 1}} />
+                        }
+                        {
+                            current_room &&
+                            <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                                <Blockie scale={3} seed={current_room} />
+                                <Typography
+                                    style={{marginLeft: '0.5rem', color: "#999"}}
+                                    onClick={current_room ? handleRoomClick : null}
+                                >
+                                    {current_room}
+                                </Typography>
+                                <GroupIcon style={{ marginLeft: '1rem', color: "#69f0ae", height: 16, width: 16 }} />
+                                <Typography variant="caption">{room_users}</Typography>
+                            </div>
+                        }
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <Typography
+                            style={{ color: "#666" }}
+                            variant="caption">{user.substring(user.length - 5)}</Typography>
+                        <Avatar
+                            onClick={handleClick}
+                            style={{
+                                width: 30,
+                                height: 30,
+                                marginLeft: '0.5rem'
+                            }}
+                            src={userImage}
+                            alt={user}
+                        />
+
+                    </div>
+                    {/* {current_room ? roomStats() : <div className={classes.title} />} */}
+                    {/* <Grid container
                             alignItems="center"
                             spacing={1}
                         >
@@ -159,8 +151,7 @@ const Header = props => {
                                     alt={user}
                                 />
                             </Grid>
-                        </Grid>
-                    </div>
+                        </Grid> */}
                 </Toolbar>
             </AppBar>
             <Menu

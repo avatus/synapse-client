@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { View, StyleSheet } from 'react-native-web'
 import * as messageActions from '../actions/messages/message.actions'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -9,6 +8,15 @@ import moment from 'moment'
 import TextField from '@material-ui/core/TextField'
 import uuid from 'uuid/v4'
 import { withStyles } from '@material-ui/core/styles'
+import { animateScroll } from "react-scroll";
+
+const scrollMessages = () => {
+    animateScroll.scrollToBottom({
+        duration: 0,
+        containerId: "message-box"
+    });
+}
+
 
 const actions = {
     ...messageActions
@@ -35,46 +43,36 @@ const UserInput = props => {
     }
 
     return (
-        <View style={styles.root}>
-                <div></div>
-                <TextField
-                    InputProps={{
-                        disableUnderline: true,
-                        className: classes.inputText,
-                        endAdornment: <InputAdornment position="end">
-                            <IconButton 
-                                onClick={submitMessage}
-                                edge="end"
-                                style={{color: "#666"}}>
-                                <SubdirectoryArrowLeftIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    }}
-                    color="secondary"
-                    fullWidth
-                    placeholder="›"
-                    className={classes.userInput}
-                    value={input}
-                    onKeyDown={event => {
-                        if (event.keyCode === 13) {
-                            submitMessage()
-                        }
-                    }}
-                    onChange={(event) => setInput(event.target.value)}
-                />
-        </View>
+        <div>
+            <TextField
+                onFocus={scrollMessages}
+                InputProps={{
+                    disableUnderline: true,
+                    className: classes.inputText,
+                    endAdornment: <InputAdornment position="end">
+                        <IconButton 
+                            onClick={submitMessage}
+                            edge="end"
+                            style={{color: "#666"}}>
+                            <SubdirectoryArrowLeftIcon />
+                        </IconButton>
+                    </InputAdornment>
+                }}
+                color="secondary"
+                fullWidth
+                placeholder="›"
+                className={classes.userInput}
+                value={input}
+                onKeyDown={event => {
+                    if (event.keyCode === 13) {
+                        submitMessage()
+                    }
+                }}
+                onChange={(event) => setInput(event.target.value)}
+            />
+        </div>
     )
 }
-
-const styles = StyleSheet.create({
-    root: {
-        width: "100%",
-        // display: 'flex',
-        // flex: 1,
-        // position: 'absolute',
-        // bottom: 0
-    },
-})
 
 const muiStyles = theme => ({
     userInput: {

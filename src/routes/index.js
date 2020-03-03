@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: "20%",
         alignItems: 'center'
-    }
+    },
 })
 
 export default connect(mapStateToProps)(withStyles(muiStyles)(AuthenticatedRoutes))
