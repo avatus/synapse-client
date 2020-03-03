@@ -31,6 +31,8 @@ const styles = theme => ({
         overflowY: "auto",
         minHeight: `calc(100vh - 100px)`,
         maxHeight: `calc(100vh - 100px)`,
+        display: 'flex',
+        flexDirection: "column-reverse",
         listStyleType: "none",
         '&::-webkit-scrollbar': {
             width: '0.4em'
