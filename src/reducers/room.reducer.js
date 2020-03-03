@@ -4,6 +4,7 @@ import * as messageTYPES from '../actions/messages/messages.types'
 const initialState = {
     room_name: null,
     users: 0,
+    totalUsers: 0,
     history: [],
     allRooms: [],
     fetching_all_rooms: true
@@ -48,7 +49,8 @@ export default (state = {}, action) => {
         case TYPES.SET_ALL_ROOMS:
             return {
                 ...state,
-                allRooms: action.payload,
+                allRooms: action.payload.rooms,
+                totalUsers: action.payload.clients,
                 fetching_all_rooms: false,
             }
         case messageTYPES.UPDATE_USER_MESSAGE_DELIVERED:
