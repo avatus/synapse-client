@@ -5,6 +5,7 @@ import * as authActions from '../actions/auth/auth.actions'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Blockie from 'react-blockies'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
@@ -95,6 +96,11 @@ const Header = props => {
         leaveRoom(current_room)
     }
 
+    const handleCopyLink = () => {
+        interfaceActions.showMessage("Copied to cliboard!") 
+        setRoomAnchorEl(null)
+    }
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.appbar} position="absolute">
@@ -142,30 +148,7 @@ const Header = props => {
                             src={userImage}
                             alt={user}
                         />
-
                     </div>
-                    {/* {current_room ? roomStats() : <div className={classes.title} />} */}
-                    {/* <Grid container
-                            alignItems="center"
-                            spacing={1}
-                        >
-                            <Grid item>
-                                <Typography
-                                    style={{ color: "#666" }}
-                                    variant="caption">{user.substring(user.length - 5)}</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Avatar
-                                    onClick={handleClick}
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                    }}
-                                    src={userImage}
-                                    alt={user}
-                                />
-                            </Grid>
-                        </Grid> */}
                 </Toolbar>
             </AppBar>
             <Menu
@@ -187,6 +170,11 @@ const Header = props => {
                 open={Boolean(roomAnchorEl)}
                 onClose={handleRoomClose}
             >
+                <CopyToClipboard text={`${process.env.REACT_APP_ROOT_URL}/synapse/${current_room}`}>
+                    <MenuItem onClick={() => {
+                        handleCopyLink()
+                    }}>Copy Invite Link</MenuItem>
+                </CopyToClipboard>
                 <MenuItem onClick={() => {
                     handleLeaveRoom()
                 }}>Leave Synapse</MenuItem>
