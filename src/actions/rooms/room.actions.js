@@ -1,6 +1,5 @@
 import * as TYPES from './room.types'
 import axios from 'axios'
-// import socket from '../../config/socket'
 
 export const getRoom = room_id => dispatch => {
     dispatch({ type: TYPES.UNSET_ROOM })

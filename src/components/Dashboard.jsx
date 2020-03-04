@@ -107,10 +107,11 @@ const Dashboard = props => {
         <div className={classes.dashboardRoot}>
             <View style={styles.roomBox}>
                 <div style={{
-                    marginBottom: "1rem",
                     display: 'flex', 
+                    paddingLeft: "0.5rem",
+                    paddingRight: "0.5rem",
                     justifyContent: "space-between",
-                    alignItems: 'flex-start'}}>
+                    alignItems: 'flex-end'}}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <Typography style={{marginRight: "2rem"}}>Synapse Index</Typography>
                     </div>
