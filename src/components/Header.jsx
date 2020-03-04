@@ -181,7 +181,7 @@ const Header = props => {
                 open={Boolean(roomAnchorEl)}
                 onClose={handleRoomClose}
             >
-                <CopyToClipboard text={`${process.env.REACT_APP_ROOT_URL}/synapse/${current_room}`}>
+                <CopyToClipboard text={`${process.env.REACT_APP_LINK_ROOT}/synapse/${current_room}`}>
                     <MenuItem onClick={() => {
                         handleCopyLink()
                     }}>Copy Invite Link</MenuItem>
