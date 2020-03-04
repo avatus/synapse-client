@@ -57,15 +57,12 @@ const Dashboard = props => {
 
     useInterval(() => {
         setAllRooms()
-    }, 30000)
+    }, 300000)
 
     const renderRoom = r => {
         if (r) {
             return (
                 <Link 
-                    style={{
-                        color: "#ddd",
-                    }}
                     to={`/synapse/${r.name}`}>
                     <div
                         className={classes.roomView}>
@@ -151,7 +148,7 @@ const muiStyles = theme => ({
         backgroundColor: "#333",
         '&:hover': {
             cursor: 'pointer',
-            backgroundColor: "#3C3C3C"
+            backgroundColor: "#373737"
         },
         transition: '0.2s'
     },

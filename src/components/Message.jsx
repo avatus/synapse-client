@@ -29,6 +29,7 @@ const Message = props => {
   return (
     <div
       style={{
+        maxWidth: '100%',
         display: 'flex',
         alignItems: 'center',
         padding: "0.5rem 1rem 0.5rem 1rem"
