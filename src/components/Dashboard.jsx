@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import * as roomActions from '../actions/rooms/room.actions'
+import * as interfaceActions from '../actions/interface/interface.actions'
 import GroupIcon from '@material-ui/icons/Person';
 import RoomIcon from '@material-ui/icons/SettingsEthernet';
 import { connect } from 'react-redux'
@@ -71,7 +72,7 @@ const Dashboard = props => {
                         className={classes.roomView}>
                         <Blockie
                             seed={r.name} scale={3} />
-                        <Typography style={{ marginLeft: "0.5rem" }}>{r.name}</Typography>
+                        <Typography style={{ marginLeft: "0.5rem", fontSize: "0.8rem" }}>{r.name}</Typography>
                         <div style={{justifyContent: "flex-end", flex: 1, display: 'flex', alignItems: 'center'}}>
                             <Typography variant="caption">{r.users}</Typography>
                             <GroupIcon style={{ marginLeft: '0.1rem', color: "#69f0ae", height: 16, width: 16 }} />
@@ -114,9 +115,11 @@ const Dashboard = props => {
                     paddingLeft: "0.5rem",
                     paddingRight: "0.5rem",
                     justifyContent: "space-between",
-                    alignItems: 'flex-end'}}>
+                    alignItems: 'flex-start'}}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <Typography style={{marginRight: "2rem"}}>Synapse Index</Typography>
+                        <div>
+                        <Typography>Synapse Index</Typography>
+                        </div>
                     </div>
                     <div>
                         <div style={{display: 'flex', justifyContent:'flex-end', alignItems: 'center', alignContent: 'center'}}>
@@ -147,6 +150,7 @@ const muiStyles = theme => ({
     roomView: {
         display: 'flex',
         padding: "0.5rem",
+        alignItems: "center",
         borderLeft: "1px solid #00b676",
         backgroundColor: "#333",
         '&:hover': {
@@ -206,6 +210,7 @@ const mapStateToProps = state => {
 
 const actions = {
     ...roomActions,
+    ...interfaceActions,
 }
 
 export default connect(mapStateToProps, actions)(withStyles(muiStyles)(Dashboard))

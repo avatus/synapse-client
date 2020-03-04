@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as authActions from '../actions/auth/auth.actions'
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button'
+import ChevronRight from '@material-ui/icons/ChevronRight'
 import Toolbar from '@material-ui/core/Toolbar';
 import Blockie from 'react-blockies'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -57,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = props => {
-    const { user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom } = props
+    const { user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom, openJoinDialog } = props
     const [anchorEl, setAnchorEl] = useState(null);
     const [roomAnchorEl, setRoomAnchorEl] = useState(null);
     const classes = useStyles()
@@ -109,7 +111,16 @@ const Header = props => {
                     className={drawerOpen ? classes.drawerOpen : classes.drawerClose}
                     variant="dense">
                         {
-                            !current_room && <div style={{flex: 1}} />
+                            !current_room && <div style={{flex: 1}}>
+                                <Button
+                                    onClick={openJoinDialog}
+                                    style={{
+                                        color: "#999",
+                                    }}
+                                    size="small"
+                                    endIcon={<ChevronRight style={{color: "#ba68c8"}} />}
+                                >Enter Synapse</Button>
+                            </div>
                         }
                         {
                             current_room &&
