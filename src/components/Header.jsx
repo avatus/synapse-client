@@ -32,6 +32,11 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    headerRoomName: {
+        '&:hover': {
+            cursor: 'pointer'
+        }
+    },
     drawerClose: {
         overflow: "hidden",
         transition: theme.transitions.create('margin', {
@@ -102,11 +107,17 @@ const Header = props => {
                         }
                         {
                             current_room &&
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                            <div 
+                                onClick={current_room ? handleRoomClick : null}
+                                className={classes.headerRoomName}
+                                style={{ 
+                                        flex: 1, 
+                                        display: 'flex', 
+                                        alignItems: 'center' ,
+                                }}>
                                 <Blockie scale={3} seed={current_room} />
                                 <Typography
                                     style={{marginLeft: '0.5rem', color: "#999"}}
-                                    onClick={current_room ? handleRoomClick : null}
                                 >
                                     {current_room}
                                 </Typography>
