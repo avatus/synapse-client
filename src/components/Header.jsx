@@ -108,21 +108,24 @@ const Header = props => {
                         {
                             current_room &&
                             <div 
-                                onClick={current_room ? handleRoomClick : null}
-                                className={classes.headerRoomName}
                                 style={{ 
                                         flex: 1, 
                                         display: 'flex', 
                                         alignItems: 'center' ,
                                 }}>
-                                <Blockie scale={3} seed={current_room} />
-                                <Typography
-                                    style={{marginLeft: '0.5rem', color: "#999"}}
-                                >
-                                    {current_room}
-                                </Typography>
-                                <GroupIcon style={{ marginLeft: '1rem', color: "#69f0ae", height: 16, width: 16 }} />
-                                <Typography variant="caption">{room_users}</Typography>
+                                    <div 
+                                        className={classes.headerRoomName}
+                                        onClick={current_room ? handleRoomClick : null}
+                                        style={{display:'flex', alignItems: 'center'}}>
+                                        <Blockie scale={3} seed={current_room} />
+                                        <Typography
+                                            style={{marginLeft: '0.5rem', color: "#999"}}
+                                        >
+                                            {current_room}
+                                        </Typography>
+                                        <GroupIcon style={{ marginLeft: '1rem', color: "#69f0ae", height: 16, width: 16 }} />
+                                        <Typography variant="caption">{room_users}</Typography>
+                                    </div>
                             </div>
                         }
                     <div style={{display: 'flex', alignItems: 'center'}}>
