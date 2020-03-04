@@ -14,14 +14,15 @@ const actions = {
     ...authActions,
 }
 
-// const width = Dimensions.get('window').width
-// const vh = width > 520 ? 100 : 85
 const Room = ({ room_name, getRoom, unsetRoom, match, history, classes }) => {
     const { id } = match.params
     const size = useWindowSize();
     useEffect(() => {
         let reg = /^[a-z0-9]+$/i
         if(!reg.test(id)){
+            return history.replace('/')
+        }
+        if (id.length < 4 || id.length > 12) {
             return history.replace('/')
         }
         getRoom(id)

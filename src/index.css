@@ -16,7 +16,11 @@ body {
 
 a {
   text-decoration: none !important;
-  color: #DDDDDD;
+  /* color: #DDDDDD; */
+}
+
+.linkified {
+  color: #448aff !important;
 }
 
 code {
