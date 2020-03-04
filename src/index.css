@@ -32,6 +32,13 @@ a {
   max-width: 100%;
 }
 
+.linkified-hashtag {
+  color: #00e5ff !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+  max-width: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
