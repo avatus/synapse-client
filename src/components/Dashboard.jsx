@@ -63,6 +63,9 @@ const Dashboard = props => {
         if (r) {
             return (
                 <Link 
+                    style={{
+                        color: "#DDD"
+                    }}
                     to={`/synapse/${r.name}`}>
                     <div
                         className={classes.roomView}>
@@ -148,7 +151,7 @@ const muiStyles = theme => ({
         backgroundColor: "#333",
         '&:hover': {
             cursor: 'pointer',
-            backgroundColor: "#373737"
+            backgroundColor: "#3C3C3C"
         },
         transition: '0.2s'
     },
