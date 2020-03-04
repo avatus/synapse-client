@@ -8,6 +8,7 @@ import { PulseSpinner } from 'react-spinners-kit'
 import { Link } from 'react-router-dom'
 import Badge from '@material-ui/core/Badge'
 import ListItem from '@material-ui/core/ListItem'
+import Tooltip from '@material-ui/core/Tooltip'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton';
@@ -40,33 +41,42 @@ const Menu = props => {
 
     const roomIcon = (room_name, room_data) => {
         return (
-            <ListItem
-                style={{
-                    color: "#aaa"
-                }}
-                button
-                classes={{
-                    selected: classes.selected
-                }}
-                dense
-                selected={room_name === current_room}
-                component={Link}
-                to={`/synapse/${room_name}`}
-                key={room_name}>
-                <ListItemIcon>
-                    <Badge
-                        color="primary"
-                        classes={{
-                            badge: classes.badgeDefault,
-                            colorPrimary: classes.badgeColor
-                        }}
-                        badgeContent={room_data.unread}
+                <ListItem
+                key={room_name}
+                    style={{
+                        color: "#aaa"
+                    }}
+                    alt={room_name}
+                    button
+                    classes={{
+                        selected: classes.selected
+                    }}
+                    dense
+                    selected={room_name === current_room}
+                    component={Link}
+                    to={`/synapse/${room_name}`}
+                    >
+                    <ListItemIcon>
+                        <Tooltip
+                            disableFocusListener
+                            disableTouchListener
+                            title={room_name}
+                            placement="right-end"
                         >
-                    <Blockies seed={room_name} scale={3} />
-                    </Badge>
-                </ListItemIcon>
-                <ListItemText>{room_name}</ListItemText>
-            </ListItem>
+                        <Badge
+                            color="primary"
+                            classes={{
+                                badge: classes.badgeDefault,
+                                colorPrimary: classes.badgeColor
+                            }}
+                            badgeContent={room_data.unread}
+                            >
+                        <Blockies seed={room_name} scale={3} />
+                        </Badge>
+                        </Tooltip>
+                    </ListItemIcon>
+                    <ListItemText>{room_name}</ListItemText>
+                </ListItem>
         )
     }
 
