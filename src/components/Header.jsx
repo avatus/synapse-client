@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as authActions from '../actions/auth/auth.actions'
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button'
+import ButtonBase from '@material-ui/core/ButtonBase'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import Toolbar from '@material-ui/core/Toolbar';
 import Blockie from 'react-blockies'
@@ -112,14 +112,23 @@ const Header = props => {
                     variant="dense">
                         {
                             !current_room && <div style={{flex: 1}}>
-                                <Button
-                                    onClick={openJoinDialog}
-                                    style={{
-                                        color: "#999",
-                                    }}
-                                    size="small"
-                                    endIcon={<ChevronRight style={{color: "#ba68c8"}} />}
-                                >Enter Synapse</Button>
+                                <div 
+                                    style={{display: 'flex', alignItems: 'center'}}>
+                                    <ButtonBase
+                                        onClick={openJoinDialog}
+                                        style={{
+                                            fontFamily: "Roboto Mono",
+                                            color: "#999",
+                                        }}
+                                        size="small"
+                                    >Enter Synapse</ButtonBase>
+                                    <ChevronRight 
+                                        onClick={openJoinDialog}
+                                        style={{
+                                            color: "#ba68c8",
+                                            cursor: "pointer",
+                                        }} />
+                                </div>
                             </div>
                         }
                         {
