@@ -8,6 +8,7 @@ import * as authActions from './actions/auth/auth.actions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createBrowserHistory } from "history";
+import Helmet from './components/Helmet'
 import Routes from './routes'
 import { GuardSpinner } from 'react-spinners-kit'
 import Recaptcha from './components/Captcha'
@@ -74,6 +75,7 @@ function App(props) {
         </Router>
         <ToastContainer />
       </View>
+      <Helmet />
     </ThemeProvider>
   )
 }

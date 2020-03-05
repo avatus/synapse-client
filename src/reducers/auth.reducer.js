@@ -7,6 +7,7 @@ const initialState = {
     human: false,
     room_list: {},
     fetching_rooms: true,
+    unread: 0,
 }
 
 export default (state = {}, action) => {
@@ -21,6 +22,18 @@ export default (state = {}, action) => {
                 ...state,
                 human: true, 
             }
+        case messageTYPES.UPDATE_UNFOCUSED_UNREAD: {
+            return {
+                ...state,
+                unread: state.unread + 1
+            }
+        }
+        case messageTYPES.UPDATE_FOCUSED_UNREAD: {
+            return {
+                ...state,
+                unread: 0
+            }
+        }
         case TYPES.USER_ROOM_LIST:
             return {
                 ...state,

@@ -6,6 +6,9 @@ const id_token = localStorage.getItem('id_token')
 socket.on(TYPES.ROOM_MESSAGE, ({ room, message }) => {
     const { room_name } = store.getState().room
     if (room === room_name) {
+        if (!document.hasFocus()) {
+            store.dispatch({ type: TYPES.UPDATE_UNFOCUSED_UNREAD })
+        }
         if (message.user === id_token) {
             const { history } = store.getState().room
             let updatedKeys = history.map(m => {

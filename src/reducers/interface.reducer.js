@@ -4,6 +4,7 @@ const initialState = {
     drawerOpen: false,
     mobileDrawerOpen: false,
     joinDialog: false,
+    compactMessages: false,
     idTokenDialog: false,
 }
 
