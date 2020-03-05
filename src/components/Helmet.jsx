@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { store } from '../index'
 import * as messageTypes from '../actions/messages/messages.types'
+import favicon from '../assets/favicon.png'
+import unreadFavicon from '../assets/faviconunread.png'
 
 const returnUnredTotal = (unfocused, rooms) => {
     let roomUnread = 0
@@ -31,6 +33,7 @@ const HelmetHeader = ({ current_room, room_list, unfocusedUnread }) => {
             defer={false} 
         >
             <title>{unread > 0 ? `(${unread}) ${title}` : title}</title>
+            <link id="favicon" rel="icon" href={unread > 0 ? unreadFavicon : favicon} type="image/x-icon"/>
         </Helmet>
     )
 }
