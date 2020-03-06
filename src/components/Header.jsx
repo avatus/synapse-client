@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = props => {
-    const { user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom, openJoinDialog } = props
+    const { openSettingsDialog, user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom, openJoinDialog } = props
     const [anchorEl, setAnchorEl] = useState(null);
     const [roomAnchorEl, setRoomAnchorEl] = useState(null);
     const classes = useStyles()
@@ -182,6 +182,10 @@ const Header = props => {
                     handleClose()
                     openIdTokenDialog()
                 }}>ID Token</MenuItem>
+                <MenuItem onClick={() => {
+                    handleClose()
+                    openSettingsDialog()
+                }}>Settings</MenuItem>
             </Menu>
             <Menu
                 id="room-menu"

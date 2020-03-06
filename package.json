@@ -17,6 +17,7 @@
     "html-react-parser": "^0.10.1",
     "linkifyjs": "^2.1.9",
     "moment": "^2.24.0",
+    "randomcolor": "^0.5.4",
     "randomstring": "^1.1.5",
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.6",

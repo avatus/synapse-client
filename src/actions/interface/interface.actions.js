@@ -2,6 +2,16 @@ import * as TYPES from './interface.types'
 import { toast } from 'react-toastify'
 import { css } from 'glamor'
 
+const checkStorage = () => {
+    try {
+      localStorage.setItem('storageCheck', '1');
+      localStorage.removeItem('storageCheck');
+      return true;
+    } catch (err) {
+      return false;
+    }
+}
+
 export const showMessage = (message, status) => {
     if (!status) {
         toast(message, {
@@ -61,4 +71,19 @@ export const openIdTokenDialog = () => dispatch => {
 
 export const closeIdTokenDialog = () => dispatch => {
     return dispatch({ type: TYPES.CLOSE_ID_TOKEN_DIALOG })
+}
+
+export const openSettingsDialog = () => dispatch => {
+    return dispatch({ type: TYPES.OPEN_SETTINGS_DIALOG })
+}
+
+export const closeSettingsDialog = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_SETTINGS_DIALOG })
+}
+
+export const updateSetting_COMPACT_MESSAGES = (update) => dispatch => {
+    if (checkStorage()) {
+        localStorage.setItem('compactMessages', update)
+    }
+    return dispatch({ type: TYPES.UPDATE_SETTING_COMPACT_MESSAGES, payload: update })
 }

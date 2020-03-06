@@ -1,11 +1,29 @@
 import * as TYPES from '../actions/interface/interface.types'
 
-const initialState = {
+const checkStorage = () => {
+    try {
+      localStorage.setItem('storageCheck', '1');
+      localStorage.removeItem('storageCheck');
+      return true;
+    } catch (err) {
+      return false;
+    }
+}
+
+let initialState = {
     drawerOpen: false,
     mobileDrawerOpen: false,
     joinDialog: false,
     compactMessages: false,
     idTokenDialog: false,
+    settingsDialog: false,
+}
+
+if (checkStorage()) {
+    let compactMessages = localStorage.getItem('compactMessages')
+    if (compactMessages === "true") {
+        initialState.compactMessages = true
+    }
 }
 
 export default (state = {}, action) => {
@@ -50,6 +68,21 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 idTokenDialog: false
+            }
+        case TYPES.OPEN_SETTINGS_DIALOG:
+            return {
+                ...state,
+                settingsDialog: true
+            }
+        case TYPES.CLOSE_SETTINGS_DIALOG:
+            return {
+                ...state,
+                settingsDialog: false
+            }
+        case TYPES.UPDATE_SETTING_COMPACT_MESSAGES:
+            return {
+                ...state,
+                compactMessages: action.payload,
             }
         default:
             return {...initialState, ...state}

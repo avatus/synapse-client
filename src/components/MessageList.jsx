@@ -13,14 +13,14 @@ const scrollMessages = () => {
 }
 
 const MessageList = props => {
-    const { messages, classes } = props
+    const { messages, classes, compact } = props
     useEffect(() => {
         scrollMessages()
-    }, [messages])
+    }, [messages, compact])
     return (
         <div id="message-box" className={classes.box}>
             <List>
-                {messages.map(message => <Message key={message.id} message={message} />)}
+                {messages.map(message => <Message compact={compact} key={message.id} message={message} />)}
             </List>
         </div>
     )
@@ -46,7 +46,7 @@ const styles = theme => ({
 })
 
 const mapStateToProps = state => {
-    return { messages: state.room.history }
+    return { messages: state.room.history, compact: state.interface.compactMessages }
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(MessageList))

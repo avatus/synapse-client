@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import parse from 'html-react-parser';
 import Avatar from '@material-ui/core/Avatar'
+import randomColor from 'randomcolor'
 import Typography from '@material-ui/core/Typography'
 import useInterval from '@use-it/interval';
 import linkifyHtml from 'linkifyjs/html'
@@ -13,19 +14,6 @@ hashtag(linkify);
 const formatTime = time => {
   return time.fromNow()
 }
-
-// const formatMessage = message => {
-//   return linkifyHtml(message.text, {
-//     defaultProtocol: 'https',
-//     // formatHref: function (href, type) {
-//     //   console.log(href, type)
-//     //   // if (type === 'hashtag') {
-//     //   //   href = `${process.env.REACT_APP_ROOT_URL}/synapse/${href.substring(1)}`
-//     //   // }
-//     //   return href;
-//     // }
-//   });
-// }
 
 const htmlify = text => {
   return linkifyHtml(text, {
@@ -70,7 +58,7 @@ const htmlify = text => {
 }
 
 const Message = props => {
-  const { message, classes } = props
+  const { message, classes, compact } = props
   const momentTime = moment(message.time)
   const [time, setTime] = useState(momentTime.fromNow())
 
@@ -80,6 +68,21 @@ const Message = props => {
 
   const userImage = `https://api.adorable.io/avatars/64/${message.user}`
 
+  if (compact) {
+    return (
+      <div
+        style={{
+          maxWidth: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          padding: "0.2rem 0.5rem 0.2rem 0.5rem"
+        }}
+        className={classes.message}>
+          <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+          <Typography>{parse(htmlify(message.text))}</Typography>
+      </div>
+    )
+  }
   return (
     <div
       style={{
@@ -100,28 +103,6 @@ const Message = props => {
       </div>
     </div>
   )
-  // return (
-  //   <ListItem
-  //     disabled={!message.delivered}
-  //     key={message.id}
-  //     className={classes.message}>
-  //     <ListItemAvatar>
-  //       <Avatar
-  //         src={userImage}
-  //         alt={message.user}
-  //       />
-  //     </ListItemAvatar>
-  //     <ListItemText
-  //       primary={message.text}
-  //       secondary={
-  //         <span style={{color: "#666"}}>{message.delivered ?
-  //           `${message.user.substring(message.user.length - 5)} - ${time}`
-  //           : 'Sending...'
-  //         }
-  //         </span>}
-  //     />
-  //   </ListItem>
-  // )
 }
 
 const styles = theme => ({
@@ -131,10 +112,6 @@ const styles = theme => ({
     borderRadius: "4px",
     listStyleType: "none",
     transition: '0.1s',
-    //   transition: theme.transitions.create('transform', {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.enteringScreen,
-    // }),
   },
 })
 
