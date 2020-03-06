@@ -120,7 +120,7 @@ const Menu = props => {
                 </div>
                 <div style={{ color: "gainsboro" }}>
                     <div>
-                        <List >
+                        <List>
                             <ListItem
                                 style={{
                                     color: "#aaa"
@@ -202,10 +202,18 @@ const styles = theme => ({
             display: 'none !important'
         },
     },
+    joinedRooms: {
+        '&::-webkit-scrollbar': {
+            display: 'none !important'
+        },
+    },
     drawerPaper: {
         overflowX: 'hidden',
         backgroundColor: "#222 !important",
-        borderColor: "#282828 !important"
+        borderColor: "#282828 !important",
+        '&::-webkit-scrollbar': {
+            display: 'none !important'
+        },
     },
     drawerOpen: {
         width: drawerWidth,
