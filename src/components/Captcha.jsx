@@ -23,11 +23,13 @@ const Captcha = props => {
     }
 
     return (
-        <ReCAPTCHA 
-            onChange={verifyRecaptcha}
-            sitekey={process.env.REACT_APP_RECAPTCHA}
-            theme="dark"
-        />
+        <div>
+            <ReCAPTCHA 
+                onChange={verifyRecaptcha}
+                sitekey={process.env.REACT_APP_RECAPTCHA}
+                theme="dark"
+            />
+        </div>
     )
 }
 

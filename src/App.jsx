@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native-web'
 import { connect } from 'react-redux'
 import { Router } from 'react-router-dom'
 import * as messageActions from './actions/messages/message.actions'
+import Typography from '@material-ui/core/Typography'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import * as authActions from './actions/auth/auth.actions'
 import { ToastContainer } from 'react-toastify';
@@ -64,6 +65,10 @@ function App(props) {
     return (
       <View style={styles.loading}>
         <Recaptcha />
+          <Typography 
+            align="center" 
+            variant="caption" 
+            style={{color: "#666", maxWidth: 250, marginTop: "1rem"}}>By checking this box you are declaring you are not a robot. You are also accepting our terms of service which forbids posting illegal content. Thank you.</Typography>
       </View>
     )
   }

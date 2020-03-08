@@ -68,6 +68,54 @@ const Message = props => {
 
   const userImage = `https://api.adorable.io/avatars/64/${message.user}`
 
+  const renderTextMessage = () => {
+    return (
+      <div>
+        {
+          compact ?
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography>{parse(htmlify(message.text))}</Typography>
+          </div>
+          :
+          <div>
+            <Typography>{parse(htmlify(message.text))}</Typography>
+            <Typography variant="caption" style={{color: "#666"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+          </div>
+        }
+      </div>
+    )
+
+  }
+
+  const renderImageMessage = () => {
+    return (
+      <div>
+        <div style={{display: 'flex', alignItems: 'flex-end'}}>
+          {
+            compact &&
+            <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+          }
+          <div>
+            <a 
+              target="_blank"
+              rel="noopener noreferrer"
+              href={message.text}>
+              <img 
+                style={{maxHeight: 150, maxWidth: "100%"}}
+                alt=""
+                src={message.text} />
+            </a>
+          </div>
+        </div>
+          {!compact &&
+            <Typography variant="caption" style={{color: "#666"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+          }
+      </div>
+    )
+
+  }
+
   if (compact) {
     return (
       <div
@@ -78,8 +126,7 @@ const Message = props => {
           padding: "0.2rem 0.5rem 0.2rem 0.5rem"
         }}
         className={classes.message}>
-          <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
-          <Typography>{parse(htmlify(message.text))}</Typography>
+          {message.type === "image" ? renderImageMessage() : renderTextMessage()}
       </div>
     )
   }
@@ -98,8 +145,7 @@ const Message = props => {
         alt={message.user}
       />
       <div>
-        <Typography>{parse(htmlify(message.text))}</Typography>
-        <Typography variant="caption" style={{color: "#666"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+          {message.type === "image" ? renderImageMessage() : renderTextMessage()}
       </div>
     </div>
   )
