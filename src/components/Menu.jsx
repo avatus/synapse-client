@@ -175,6 +175,7 @@ const Menu = props => {
 
 const styles = theme => ({
     badgeDefault: {
+        padding: "0px !important",
         border: "1px solid #222",
     },
     chevron: {

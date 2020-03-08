@@ -5,55 +5,25 @@ import GroupIcon from '@material-ui/icons/Person';
 import RoomIcon from '@material-ui/icons/SettingsEthernet';
 import { connect } from 'react-redux'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
-// import Grid from '@material-ui/core/Grid'
-import { VirtuosoGrid } from 'react-virtuoso'
 import { GuardSpinner } from 'react-spinners-kit'
 import Typography from '@material-ui/core/Typography'
-import styled from '@emotion/styled'
-// import ListItem from '@material-ui/core/ListItem'
-// import ListItemText from '@material-ui/core/ListItemText'
 import Blockie from 'react-blockies'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import useInterval from '@use-it/interval'
-// import randomString from 'randomstring'
 
-// const width = Dimensions.get('window').width
-// const vh = width > 520 ? 100 : 85
-
-const ItemContainer = styled.div`
-  width: 25%;
-  display: flex;
-  flex: none;
-  align-content: stretch;
-
-  @media (max-width: 1024px) {
-    width: 25%;
-  }
-
-  @media (max-width: 768px) {
-    width: 50%;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
-  }
-`
-
-const ItemWrapper = styled.div`
-    flex: 1;
-  }
-`
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
+    // let testingRooms = []
+    // for (var i = 0; i < 300; i++) {
+    //     testingRooms.push({
+    //         name: Math.floor(Math.random()*100000).toString()
+    //     })
+    // }
 
 const Dashboard = props => {
     let { classes, setAllRooms, fetching_rooms, rooms, totalUsers } = props
     useEffect(() => {
         setAllRooms()
+        console.log('running set rooms')
     }, [setAllRooms])
 
     useInterval(() => {
@@ -64,20 +34,26 @@ const Dashboard = props => {
         if (r) {
             return (
                 <Link 
+                    className={classes.roomWrapper}
                     style={{
                         color: "#DDD"
                     }}
+                    key={r.name}
                     to={`/synapse/${r.name}`}>
-                    <div
-                        className={classes.roomView}>
-                        <Blockie
-                            seed={r.name} scale={3} />
-                        <Typography style={{ marginLeft: "0.5rem", fontSize: "0.8rem" }}>{r.name}</Typography>
-                        <div style={{justifyContent: "flex-end", flex: 1, display: 'flex', alignItems: 'center'}}>
-                            <Typography variant="caption">{r.users}</Typography>
-                            <GroupIcon style={{ marginLeft: '0.1rem', color: "#69f0ae", height: 16, width: 16 }} />
+                        <div style={{padding: "0.2rem"}}>
+                            <div
+                                className={classes.roomView}
+                                >
+                                <Blockie
+                                    seed={r.name} scale={3} />
+                                <Typography style={{ marginLeft: "0.5rem", fontSize: "0.8rem" }}>{r.name}</Typography>
+                                <div style={{justifyContent: "flex-end", flex: 1, display: 'flex', alignItems: 'center'}}>
+                                    <Typography variant="caption">{r.users}</Typography>
+                                    <GroupIcon style={{ marginLeft: '0.1rem', color: "#69f0ae", height: 16, width: 16 }} />
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
                 </Link>
             )
         }
@@ -100,12 +76,6 @@ const Dashboard = props => {
     }
 
 
-    // rooms = []
-    // for (var i = 0; i < 300; i++) {
-    //     rooms.push({
-    //         name: Math.floor(Math.random()*100000).toString()
-    //     })
-    // }
 
     return (
         <div className={classes.dashboardRoot}>
@@ -132,21 +102,25 @@ const Dashboard = props => {
                         </div>
                     </div>
                 </div>
-                <VirtuosoGrid
-                    totalCount={rooms.length}
-                    overscan={40}
-                    ItemContainer={ItemContainer}
-                    ListContainer={ListContainer}
-                    item={index => <ItemWrapper style={{ padding: "0.5rem" }}>{renderRoom(rooms[index])}</ItemWrapper>}
-                    className={classes.roomBox}
-                    style={{height: 200}}
-                />
+                <div className={classes.roomBox}>
+                    {rooms.map(r => renderRoom(r))}
+                </div>
             </View>
         </div>
     )
 }
 
 const muiStyles = theme => ({
+    roomWrapper: {
+        // flex: 'none',
+        width: "100%",
+        [theme.breakpoints.up('md')]: {
+            width: "50%",
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "25%",
+        },
+    },
     roomView: {
         display: 'flex',
         padding: "0.5rem",
@@ -166,6 +140,12 @@ const muiStyles = theme => ({
         maxHeight: "100%",
     },
     roomBox: {
+        // width: "100%",
+        // flex: 1,
+        display: 'flex',
+        alignContent: 'flex-start',
+        flexWrap: 'wrap',
+        overflowY: "auto",
         height: "calc(100vh - 120px) !important",
         '&::-webkit-scrollbar': {
             display: 'none'
