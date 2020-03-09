@@ -3,6 +3,12 @@ import moment from 'moment'
 import parse from 'html-react-parser';
 import Avatar from '@material-ui/core/Avatar'
 import randomColor from 'randomcolor'
+import * as messageActions from '../actions/messages/message.actions'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import IconButton from '@material-ui/core/IconButton'
+import MoreIcon from '@material-ui/icons/MoreVert'
+import MoreCompactIcon from '@material-ui/icons/MoreHoriz'
 import Typography from '@material-ui/core/Typography'
 import useInterval from '@use-it/interval';
 import linkifyHtml from 'linkifyjs/html'
@@ -61,12 +67,41 @@ const Message = props => {
   const { message, classes, compact } = props
   const momentTime = moment(message.time)
   const [time, setTime] = useState(momentTime.fromNow())
+  const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleReport = () => {
+        messageActions.reportMessage(message)
+    }
 
   useInterval(() => {
     setTime(formatTime(momentTime))
   }, 60000)
 
   const userImage = `https://api.adorable.io/avatars/64/${message.user}`
+
+  const messageMenu = () => {
+    return (
+      <Menu
+      id="auth-menu"
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={handleClose}
+  >
+      <MenuItem onClick={() => {
+          handleClose()
+          handleReport()
+        }}>Report</MenuItem>
+      </Menu>
+    )
+  }
 
   const renderTextMessage = () => {
     return (
@@ -126,7 +161,18 @@ const Message = props => {
           padding: "0.2rem 0.5rem 0.2rem 0.5rem"
         }}
         className={classes.message}>
-          {message.type === "image" ? renderImageMessage() : renderTextMessage()}
+          <div style={{flex: 1}}>
+            {message.type === "image" ? renderImageMessage() : renderTextMessage()}
+          </div>
+        <div style={{justifySelf: 'flex-end'}}>
+          <IconButton 
+            onClick={handleClick}
+            size="small"
+            style={{color: "#333"}}>
+            <MoreCompactIcon />
+          </IconButton>
+        </div>
+      {messageMenu()}
       </div>
     )
   }
@@ -144,9 +190,18 @@ const Message = props => {
         src={userImage}
         alt={message.user}
       />
-      <div>
+      <div style={{flex: 1}}>
           {message.type === "image" ? renderImageMessage() : renderTextMessage()}
       </div>
+      <div style={{justifySelf: 'flex-end'}}>
+        <IconButton 
+          onClick={handleClick}
+          size="small"
+          style={{color: "#333"}}>
+          <MoreIcon />
+        </IconButton>
+      </div>
+      {messageMenu()}
     </div>
   )
 }

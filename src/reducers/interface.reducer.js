@@ -17,6 +17,7 @@ let initialState = {
     compactMessages: false,
     idTokenDialog: false,
     settingsDialog: false,
+    reportDialog: false,
 }
 
 if (checkStorage()) {
@@ -78,6 +79,16 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 settingsDialog: false
+            }
+        case TYPES.OPEN_REPORT_DIALOG:
+            return {
+                ...state,
+                reportDialog: true
+            }
+        case TYPES.CLOSE_REPORT_DIALOG:
+            return {
+                ...state,
+                reportDialog: false
             }
         case TYPES.UPDATE_SETTING_COMPACT_MESSAGES:
             return {

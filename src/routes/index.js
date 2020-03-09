@@ -11,6 +11,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import JoinRoomDialog from '../components/JoinRoomDialog'
 import IdTokenDialog from '../components/IdTokenDialog'
 import SettingsDialog from '../components/SettingsDialog'
+import ReportMessageDialog from '../components/ReportMessageDialog'
 
 import Dashboard from '../components/Dashboard'
 import Room from '../components/Room'
@@ -69,6 +70,7 @@ const AuthenticatedRoutes = ({ classes, user, drawerOpen }) => {
             <SettingsDialog />
             <JoinRoomDialog />
             <IdTokenDialog />
+            <ReportMessageDialog />
         </div>
     )
 }

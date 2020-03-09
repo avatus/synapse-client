@@ -1,4 +1,5 @@
 import * as TYPES from './messages.types'
+import * as interfaceTypes from '../interface/interface.types'
 import { store } from '../../index'
 import socket from '../../config/socket'
 const id_token = localStorage.getItem('id_token')
@@ -28,8 +29,17 @@ socket.on(TYPES.ROOM_MESSAGE, ({ room, message }) => {
         update.unread = update.unread += 1
         store.dispatch({ type: TYPES.INACTIVE_ROOM_MESSAGE, payload: {room, update} })
     }
-    // store.dispatch({ type: TYPES.RECEIVE_MESSAGE, payload: message })
 })
+
+export const reportMessage = message => {
+    store.dispatch({ type: TYPES.REPORT_MESSAGE, payload: message })
+    store.dispatch({ type: interfaceTypes.OPEN_REPORT_DIALOG })
+}
+
+export const submitReport = message => dispatch => {
+    console.log(message)
+    // store.dispatch({ type: interfaceTypes.CLOSE_REPORT_DIALOG })
+}
 
 export const sendMessage = (room, message) => dispatch => {
     const { room_name } = store.getState().room

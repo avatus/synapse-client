@@ -81,6 +81,10 @@ export const closeSettingsDialog = () => dispatch => {
     return dispatch({ type: TYPES.CLOSE_SETTINGS_DIALOG })
 }
 
+export const closeReportDialog = () => dispatch => {
+    return dispatch({ type: TYPES.CLOSE_REPORT_DIALOG })
+}
+
 export const updateSetting_COMPACT_MESSAGES = (update) => dispatch => {
     if (checkStorage()) {
         localStorage.setItem('compactMessages', update)

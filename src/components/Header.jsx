@@ -81,13 +81,13 @@ const Header = props => {
         setAnchorEl(event.currentTarget);
     }
 
-    const handleRoomClick = event => {
-        setRoomAnchorEl(event.currentTarget);
-    }
-
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleRoomClick = event => {
+        setRoomAnchorEl(event.currentTarget);
+    }
 
     const handleRoomClose = () => {
         setRoomAnchorEl(null);
