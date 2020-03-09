@@ -10,7 +10,7 @@ export const setUserRooms = (rooms, unread) =>  {
         roomObj[r] = {
             unread: 0,
         }
-        if (unread[r]) {
+        if (unread && unread[r]) {
             roomObj[r].unread = unread[r]
         }
     })
