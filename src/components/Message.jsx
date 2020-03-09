@@ -110,12 +110,12 @@ const Message = props => {
           compact ?
           <div style={{display: 'flex', alignItems: 'center'}}>
             <Typography variant="caption" style={{minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
-            <Typography>{parse(htmlify(message.text))}</Typography>
+            <Typography style={{wordBreak:"break-word"}}>{parse(htmlify(message.text))}</Typography>
           </div>
           :
           <div>
             <Typography>{parse(htmlify(message.text))}</Typography>
-            <Typography variant="caption" style={{color: "#666"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+            <Typography variant="caption" style={{color: "#666", wordBreak: "break-word"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
           </div>
         }
       </div>
