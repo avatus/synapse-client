@@ -109,7 +109,7 @@ const Message = props => {
         {
           compact ?
           <div style={{display: 'flex', alignItems: 'center'}}>
-            <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography variant="caption" style={{minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
             <Typography>{parse(htmlify(message.text))}</Typography>
           </div>
           :
@@ -129,7 +129,7 @@ const Message = props => {
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
           {
             compact &&
-            <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography variant="caption" style={{minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
           }
           <div>
             {
@@ -172,14 +172,17 @@ const Message = props => {
           <div style={{flex: 1}}>
             {message.type === "image" ? renderImageMessage() : renderTextMessage()}
           </div>
-        <div style={{justifySelf: 'flex-end'}}>
-          <IconButton 
-            onClick={handleClick}
-            size="small"
-            style={{color: "#333"}}>
-            <MoreCompactIcon />
-          </IconButton>
-        </div>
+          {
+            !dashboard &&
+          <div style={{justifySelf: 'flex-end'}}>
+            <IconButton 
+              onClick={handleClick}
+              size="small"
+              style={{color: "#333"}}>
+              <MoreCompactIcon />
+            </IconButton>
+          </div>
+          }
       {messageMenu()}
       </div>
     )

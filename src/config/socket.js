@@ -46,6 +46,9 @@ socket.on('reconnect', () => {
         if (current_room) {
             roomActions.getRoom(current_room, false)(store.dispatch)
         }
+        else {
+            roomActions.getRecentMessages()(store.dispatch)
+        }
     }, 1000)
 })
 
