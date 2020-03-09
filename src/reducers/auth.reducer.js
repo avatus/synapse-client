@@ -4,6 +4,7 @@ import * as roomTYPES from '../actions/rooms/room.types'
 
 const initialState = {
     user: null,
+    userData: null,
     human: false,
     room_list: {},
     fetching_rooms: true,

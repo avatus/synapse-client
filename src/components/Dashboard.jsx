@@ -3,6 +3,7 @@ import * as roomActions from '../actions/rooms/room.actions'
 import * as interfaceActions from '../actions/interface/interface.actions'
 import GroupIcon from '@material-ui/icons/Person';
 import RoomIcon from '@material-ui/icons/SettingsEthernet';
+// import RecentMessages from './RecentMessages'
 import { connect } from 'react-redux'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
 import { GuardSpinner } from 'react-spinners-kit'
@@ -23,7 +24,6 @@ const Dashboard = props => {
     let { classes, setAllRooms, fetching_rooms, rooms, totalUsers } = props
     useEffect(() => {
         setAllRooms()
-        console.log('running set rooms')
     }, [setAllRooms])
 
     useInterval(() => {
@@ -88,7 +88,7 @@ const Dashboard = props => {
                     alignItems: 'flex-start'}}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <div>
-                        <Typography>Synapse Index</Typography>
+                        {/* <Typography>Welcome to Synapse</Typography> */}
                         </div>
                     </div>
                     <div>
@@ -102,8 +102,17 @@ const Dashboard = props => {
                         </div>
                     </div>
                 </div>
-                <div className={classes.roomBox}>
-                    {rooms.map(r => renderRoom(r))}
+                {/* <div style={{marginBottom: "2rem"}}>
+                </div> */}
+                <div className={classes.dashboardBox}>
+                    {/* <div style={{marginBottom: "2rem"}}>
+                        <Typography paragraph>Recent Messages</Typography>
+                        <RecentMessages />
+                    </div> */}
+                    <Typography paragraph>Synapse Index</Typography>
+                    <div className={classes.roomBox}>
+                        {rooms.map(r => renderRoom(r))}
+                    </div>
                 </div>
             </View>
         </div>
@@ -139,12 +148,7 @@ const muiStyles = theme => ({
         padding: "0.5rem",
         maxHeight: "100%",
     },
-    roomBox: {
-        // width: "100%",
-        // flex: 1,
-        display: 'flex',
-        alignContent: 'flex-start',
-        flexWrap: 'wrap',
+    dashboardBox: {
         overflowY: "auto",
         height: "calc(100vh - 120px) !important",
         '&::-webkit-scrollbar': {
@@ -153,6 +157,14 @@ const muiStyles = theme => ({
         [theme.breakpoints.down('sm')]: {
             height: "calc(100vh - 15rem) !important",
         },
+
+    },
+    roomBox: {
+        // width: "100%",
+        // flex: 1,
+        display: 'flex',
+        alignContent: 'flex-start',
+        flexWrap: 'wrap',
     }
 })
 

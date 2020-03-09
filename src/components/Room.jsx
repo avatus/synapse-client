@@ -25,7 +25,7 @@ const Room = ({ room_name, getRoom, unsetRoom, match, history, classes }) => {
         if (id.length < 4 || id.length > 12) {
             return history.replace('/')
         }
-        getRoom(id)
+        getRoom(id, true)
         return function cleanup () {
             unsetRoom(id) 
         }

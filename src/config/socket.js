@@ -4,6 +4,7 @@ import { store } from '../index'
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as roomTypes from '../actions/rooms/room.types'
 import * as authActions from '../actions/auth/auth.actions'
+import * as roomActions from '../actions/rooms/room.actions'
 import * as TYPES from '../actions/auth/auth.types'
 // import * as roomTypes from '../actions/rooms/room.types'
 import randomstring from 'randomstring'
@@ -36,11 +37,15 @@ socket.on('disconnect_message', message => {
 
 socket.on('reconnect', () => {
     let sendBuffer = socket.sendBuffer
+    let { room_name: current_room } = store.getState().room
     setTimeout(() => {
         socket.emit('USER_RECONNECTED', {id: id_token})
         sendBuffer.forEach(buf => {
             socket.emit(buf.data[0], buf.data[1], buf.options)
         })
+        if (current_room) {
+            roomActions.getRoom(current_room, false)(store.dispatch)
+        }
     }, 1000)
 })
 
@@ -51,8 +56,8 @@ socket.on('connect_error', error => {
     }
 })
 
-socket.on('USER_ROOM_LIST', rooms => {
-    authActions.setUserRooms(rooms)
+socket.on('USER_ROOM_LIST', ({rooms, unread}) => {
+    authActions.setUserRooms(rooms, unread)
 })
 
 socket.on('UPDATE_ROOM_USER_COUNT', ({room, users}) => {

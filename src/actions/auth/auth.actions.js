@@ -4,11 +4,14 @@ import { history } from '../../App'
 import axios from 'axios'
 import randomString from 'randomstring'
 
-export const setUserRooms = rooms =>  {
+export const setUserRooms = (rooms, unread) =>  {
     let roomObj = {}
     rooms.forEach(r => {
         roomObj[r] = {
             unread: 0,
+        }
+        if (unread[r]) {
+            roomObj[r].unread = unread[r]
         }
     })
     store.dispatch({ type: TYPES.USER_ROOM_LIST, payload: roomObj })
@@ -19,7 +22,7 @@ export const checkHumanToken = (token, done) => dispatch => {
     axios.defaults.headers.common.Pragma = "no-cache"
     axios.get(`${process.env.REACT_APP_ROOT_URL}/auth/verify`)
     .then(response => {
-        dispatch({ type: TYPES.IS_HUMAN })
+        dispatch({ type: TYPES.IS_HUMAN, payload: response.data.user })
         return done()
     })
     .catch(err => {

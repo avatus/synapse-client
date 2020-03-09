@@ -6,6 +6,7 @@ const initialState = {
     users: 0,
     totalUsers: 0,
     history: [],
+    recentMessages: [],
     allRooms: [],
     fetching_all_rooms: true
 }
@@ -51,6 +52,7 @@ export default (state = {}, action) => {
                 ...state,
                 allRooms: action.payload.rooms,
                 totalUsers: action.payload.clients,
+                recentMessages: action.payload.recentMessages,
                 fetching_all_rooms: false,
             }
         case messageTYPES.UPDATE_USER_MESSAGE_DELIVERED:
