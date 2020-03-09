@@ -68,6 +68,7 @@ socket.on('UPDATE_ROOM_USER_COUNT', ({room, users}) => {
 })
 
 socket.on('RECENT_MESSAGE', message => {
+    console.log(message)
     return store.dispatch({ type: roomTypes.UPDATE_NEW_RECENT_MESSAGE, payload: message })
 })
 

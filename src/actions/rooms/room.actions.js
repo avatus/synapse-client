@@ -32,7 +32,6 @@ export const setAllRooms = () => dispatch => {
 export const recentMessageListener = () => {
     axios.post(`${process.env.REACT_APP_ROOT_URL}/sockets/listen_to_recent_messages`)
     .then(response => {
-        console.log(response.data)
     })
     .catch(err => {
         console.log(err)
@@ -42,7 +41,6 @@ export const recentMessageListener = () => {
 export const removeRecentMessageListener = () => {
     axios.post(`${process.env.REACT_APP_ROOT_URL}/sockets/stop_listen_to_recent_messages`)
     .then(response => {
-        console.log(response.data)
     })
     .catch(err => {
         console.log(err)

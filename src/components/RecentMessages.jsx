@@ -19,6 +19,7 @@ const RecentMessages = ({ messages, classes, getRecentMessages }) => {
     useEffect(() => {
         getRecentMessages()
         roomActions.recentMessageListener()
+        scrollMessages()
         return function cleanup() {
             roomActions.removeRecentMessageListener()
         }
@@ -29,34 +30,34 @@ const RecentMessages = ({ messages, classes, getRecentMessages }) => {
     }, [messages])
 
     return (
-        <div 
-            id="message-box"
-            className={classes.box}>
-                {messages.map(m => (
-                    <Link
-                        style={{ color: "#DDD", width: "100%", backgroundColor: "#272727", marginBottom: "0.5rem", paddingTop: "0.5rem" }}
-                        key={m.message.id}
-                        to={`/synapse/${m.room}`}>
-                    <div key={m.room} >
-                        <div style={{
-                            paddingLeft: "0.5rem",
-                            display: 'flex',
-                            width: "100%",
-                            flex: 1,
-                            alignItems: 'center',
-                        }}>
-                            <Blockie scale={2} seed={m.room} />
-                            <Typography 
-                                style={{ marginLeft: "0.5rem", color: "#999" }} 
-                                variant="caption">{m.room}</Typography>
+            <div 
+                id="message-box"
+                className={classes.box}>
+                    {messages.map(m => (
+                        <Link
+                            style={{ color: "#DDD", width: "100%", backgroundColor: "#272727", marginBottom: "0.5rem", paddingTop: "0.5rem" }}
+                            key={m.message.id}
+                            to={`/synapse/${m.room}`}>
+                        <div key={m.room} >
+                            <div style={{
+                                paddingLeft: "0.5rem",
+                                display: 'flex',
+                                width: "100%",
+                                flex: 1,
+                                alignItems: 'center',
+                            }}>
+                                <Blockie scale={2} seed={m.room} />
+                                <Typography 
+                                    style={{ marginLeft: "0.5rem", color: "#999" }} 
+                                    variant="caption">{m.room}</Typography>
+                            </div>
+                            <div>
+                                <Message key={m.message.id} compact={true} message={m.message} dashboard={true} />
+                            </div>
                         </div>
-                        <div>
-                            <Message key={m.message.id} compact={true} message={m.message} dashboard={true} />
-                        </div>
-                    </div>
-                </Link>
-                ))}
-        </div>
+                    </Link>
+                    ))}
+            </div>
     )
 }
 

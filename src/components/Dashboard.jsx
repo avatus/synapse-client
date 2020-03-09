@@ -14,7 +14,6 @@ import Blockie from 'react-blockies'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import useInterval from '@use-it/interval'
-
     // let testingRooms = []
     // for (var i = 0; i < 300; i++) {
     //     testingRooms.push({
@@ -109,9 +108,9 @@ const Dashboard = props => {
                         </div>
 
                         <div className={classes.dashboardBox}>
-                        <div className={classes.recentContainer}>
-                            <RecentMessages />
-                        </div>
+                            <div className={classes.recentContainer}>
+                                <RecentMessages />
+                            </div>
                         </div>
 
                 </SwipeableViews>
