@@ -64,7 +64,7 @@ const htmlify = text => {
 }
 
 const Message = props => {
-  const { message, classes, compact } = props
+  const { message, classes, compact, dashboard } = props
   const momentTime = moment(message.time)
   const [time, setTime] = useState(momentTime.fromNow())
   const [anchorEl, setAnchorEl] = useState(null);
@@ -132,6 +132,13 @@ const Message = props => {
             <Typography variant="caption" style={{color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
           }
           <div>
+            {
+              dashboard ?
+              <img 
+                style={{maxHeight: 150, maxWidth: "100%"}}
+                alt=""
+                src={message.text} />
+                :
             <a 
               target="_blank"
               rel="noopener noreferrer"
@@ -141,6 +148,7 @@ const Message = props => {
                 alt=""
                 src={message.text} />
             </a>
+            }
           </div>
         </div>
           {!compact &&

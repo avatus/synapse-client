@@ -29,6 +29,7 @@
     "react-scripts": "3.4.0",
     "react-scroll": "^1.7.16",
     "react-spinners-kit": "^1.9.1",
+    "react-swipeable-views": "^0.13.9",
     "react-toastify": "^5.5.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

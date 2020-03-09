@@ -28,3 +28,33 @@ export const setAllRooms = () => dispatch => {
         console.log(err)
     })
 }
+
+export const recentMessageListener = () => {
+    axios.post(`${process.env.REACT_APP_ROOT_URL}/sockets/listen_to_recent_messages`)
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+export const removeRecentMessageListener = () => {
+    axios.post(`${process.env.REACT_APP_ROOT_URL}/sockets/stop_listen_to_recent_messages`)
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+export const getRecentMessages = () => dispatch => {
+    axios.get(`${process.env.REACT_APP_ROOT_URL}/sockets/get_recent_messages`)
+    .then(response => {
+        return dispatch({ type: TYPES.UPDATE_RECENT_MESSAGES, payload: response.data})
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}

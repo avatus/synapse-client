@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as roomActions from '../actions/rooms/room.actions'
 import * as interfaceActions from '../actions/interface/interface.actions'
 import GroupIcon from '@material-ui/icons/Person';
-import RoomIcon from '@material-ui/icons/SettingsEthernet';
-// import RecentMessages from './RecentMessages'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import RecentMessages from './RecentMessages'
 import { connect } from 'react-redux'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native-web'
 import { GuardSpinner } from 'react-spinners-kit'
+import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography'
 import Blockie from 'react-blockies'
 import { Link } from 'react-router-dom'
@@ -21,7 +23,8 @@ import useInterval from '@use-it/interval'
     // }
 
 const Dashboard = props => {
-    let { classes, setAllRooms, fetching_rooms, rooms, totalUsers } = props
+    let { classes, setAllRooms, fetching_rooms, rooms } = props
+    const [tab, setTab] = useState(0)
     useEffect(() => {
         setAllRooms()
     }, [setAllRooms])
@@ -76,50 +79,53 @@ const Dashboard = props => {
     }
 
 
+    const handleTabChange = (_, tab) => {
+        setTab(tab)
+    }
+
+    const handleChangeIndex = index => {
+        setTab(index);
+    };
 
     return (
         <div className={classes.dashboardRoot}>
             <View style={styles.roomBox}>
-                <div style={{
-                    display: 'flex', 
-                    paddingLeft: "0.5rem",
-                    paddingRight: "0.5rem",
-                    justifyContent: "space-between",
-                    alignItems: 'flex-start'}}>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        <div>
-                        {/* <Typography>Welcome to Synapse</Typography> */}
+                <Tabs
+                    value={tab}
+                    onChange={handleTabChange}
+                    style={{marginBottom: "0.5rem"}}
+                >
+                    <Tab label="Synapse Index" />
+                    <Tab label="Recent Messages" />
+                </Tabs>
+                <SwipeableViews
+                    index={tab}
+                    onChangeIndex={handleChangeIndex}
+                >
+                        <div className={classes.dashboardBox}>
+                            <div className={classes.roomBox}>
+                                {rooms.map(r => renderRoom(r))}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div style={{display: 'flex', justifyContent:'flex-end', alignItems: 'center', alignContent: 'center'}}>
-                            <Typography style={{color: "#999"}}>{`online: ${totalUsers}`}</Typography>
-                            <GroupIcon style={{ marginLeft: '0.1rem', color: "#69f0ae", height: 16, width: 16 }} />
+
+                        <div className={classes.dashboardBox}>
+                        <div className={classes.recentContainer}>
+                            <RecentMessages />
                         </div>
-                        <div style={{display: 'flex', justifyContent:'flex-end', alignItems: 'center', alignContent: 'center'}}>
-                            <Typography style={{color: "#999"}}>{`synapses: ${rooms.length}`}</Typography>
-                            <RoomIcon style={{ marginLeft: '0.1rem', color: "#2196f3", height: 16, width: 16 }} />
                         </div>
-                    </div>
-                </div>
-                {/* <div style={{marginBottom: "2rem"}}>
-                </div> */}
-                <div className={classes.dashboardBox}>
-                    {/* <div style={{marginBottom: "2rem"}}>
-                        <Typography paragraph>Recent Messages</Typography>
-                        <RecentMessages />
-                    </div> */}
-                    <Typography paragraph>Synapse Index</Typography>
-                    <div className={classes.roomBox}>
-                        {rooms.map(r => renderRoom(r))}
-                    </div>
-                </div>
+
+                </SwipeableViews>
             </View>
         </div>
     )
 }
 
 const muiStyles = theme => ({
+        recentContainer: {
+            display: 'flex',
+            maxHeight: "100%",
+            flexDirection: 'column-reverse',
+        },
     roomWrapper: {
         // flex: 'none',
         width: "100%",
@@ -150,7 +156,7 @@ const muiStyles = theme => ({
     },
     dashboardBox: {
         overflowY: "auto",
-        height: "calc(100vh - 120px) !important",
+        height: "calc(100vh - 130px) !important",
         '&::-webkit-scrollbar': {
             display: 'none'
         },
@@ -194,8 +200,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
-        rooms: state.room.allRooms,
         fetching_rooms: state.auth.fetching_rooms,
+        rooms: state.room.allRooms,
         totalUsers: state.room.totalUsers,
     }
 }

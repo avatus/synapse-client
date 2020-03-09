@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as interfaceActions from '../actions/interface/interface.actions'
 import * as authActions from '../actions/auth/auth.actions'
 import AppBar from '@material-ui/core/AppBar';
-import ButtonBase from '@material-ui/core/ButtonBase'
-import ChevronRight from '@material-ui/icons/ChevronRight'
+// import ButtonBase from '@material-ui/core/ButtonBase'
+// import ChevronRight from '@material-ui/icons/ChevronRight'
+import RoomIcon from '@material-ui/icons/SettingsEthernet';
 import Toolbar from '@material-ui/core/Toolbar';
 import Blockie from 'react-blockies'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = props => {
-    const { openSettingsDialog, user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom, openJoinDialog } = props
+    const { totalUsers, rooms, openSettingsDialog, user, drawerOpen, current_room, openIdTokenDialog, room_users, leaveRoom } = props
     const [anchorEl, setAnchorEl] = useState(null);
     const [roomAnchorEl, setRoomAnchorEl] = useState(null);
     const classes = useStyles()
@@ -111,25 +112,36 @@ const Header = props => {
                     className={drawerOpen ? classes.drawerOpen : classes.drawerClose}
                     variant="dense">
                         {
-                            !current_room && <div style={{flex: 1}}>
-                                <div 
-                                    style={{display: 'flex', alignItems: 'center'}}>
-                                    <ButtonBase
-                                        onClick={openJoinDialog}
-                                        style={{
-                                            fontFamily: "Roboto Mono",
-                                            color: "#999",
-                                        }}
-                                        size="small"
-                                    >Enter Synapse</ButtonBase>
-                                    <ChevronRight 
-                                        onClick={openJoinDialog}
-                                        style={{
-                                            color: "#ba68c8",
-                                            cursor: "pointer",
-                                        }} />
+                            !current_room && 
+                            <div style={{flex: 1}}>
+                                <div style={{display: 'flex', justifyContent:'flex-start', alignItems: 'center', alignContent: 'center'}}>
+                                    <Typography style={{color: "#999"}}>{`online: ${totalUsers}`}</Typography>
+                                    <GroupIcon style={{ marginLeft: '0.1rem', color: "#69f0ae", height: 16, width: 16 }} />
+                                </div>
+                                <div style={{display: 'flex', justifyContent:'flex-start', alignItems: 'center', alignContent: 'center'}}>
+                                    <Typography style={{color: "#999"}}>{`synapses: ${rooms.length}`}</Typography>
+                                    <RoomIcon style={{ marginLeft: '0.1rem', color: "#2196f3", height: 16, width: 16 }} />
                                 </div>
                             </div>
+                            // <div style={{flex: 1}}>
+                            //     <div 
+                            //         style={{display: 'flex', alignItems: 'center'}}>
+                            //         <ButtonBase
+                            //             onClick={openJoinDialog}
+                            //             style={{
+                            //                 fontFamily: "Roboto Mono",
+                            //                 color: "#999",
+                            //             }}
+                            //             size="small"
+                            //         >Enter Synapse</ButtonBase>
+                            //         <ChevronRight 
+                            //             onClick={openJoinDialog}
+                            //             style={{
+                            //                 color: "#ba68c8",
+                            //                 cursor: "pointer",
+                            //             }} />
+                            //     </div>
+                            // </div>
                         }
                         {
                             current_room &&
@@ -213,6 +225,8 @@ const mapStateToProps = state => {
         drawerOpen: state.interface.drawerOpen,
         current_room: state.room.room_name,
         room_users: state.room.users,
+        rooms: state.room.allRooms,
+        totalUsers: state.room.totalUsers,
     }
 }
 
