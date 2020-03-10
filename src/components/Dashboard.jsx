@@ -94,22 +94,23 @@ const Dashboard = props => {
                     onChange={handleTabChange}
                     style={{marginBottom: "0.5rem"}}
                 >
-                    <Tab label="Synapse Index" />
                     <Tab label="Recent Messages" />
+                    <Tab label="Synapse Index" />
                 </Tabs>
                 <SwipeableViews
                     index={tab}
                     onChangeIndex={handleChangeIndex}
                 >
-                        <div className={classes.dashboardBox}>
-                            <div className={classes.roomBox}>
-                                {rooms.map(r => renderRoom(r))}
-                            </div>
-                        </div>
 
                         <div className={classes.dashboardBox}>
                             <div className={classes.recentContainer}>
                                 <RecentMessages />
+                            </div>
+                        </div>
+
+                        <div className={classes.dashboardBox}>
+                            <div className={classes.roomBox}>
+                                {rooms.map(r => renderRoom(r))}
                             </div>
                         </div>
 
