@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import Drawer from '@material-ui/core/Drawer'
 import Blockies from 'react-blockies'
 import List from '@material-ui/core/List'
 import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
+import CopyToClipboard from 'react-copy-to-clipboard'
 import { PulseSpinner } from 'react-spinners-kit'
 import { Link } from 'react-router-dom'
 import Badge from '@material-ui/core/Badge'
@@ -11,6 +12,8 @@ import ListItem from '@material-ui/core/ListItem'
 import Tooltip from '@material-ui/core/Tooltip'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import MuiMenu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 // import RandomBlockie from './RandomRoomIcon'
@@ -21,9 +24,11 @@ import { connect } from 'react-redux'
 import { drawerWidth } from '../config/constants'
 
 import * as interfaceActions from '../actions/interface/interface.actions'
+import * as authActions from '../actions/auth/auth.actions'
 
 const actions = {
     ...interfaceActions,
+    ...authActions,
 }
 
 const Menu = props => {
@@ -33,22 +38,41 @@ const Menu = props => {
         drawerOpen: open,
         openMenu,
         rooms,
+        leaveRoom,
         fetching_rooms,
         closeMenu,
         openJoinDialog,
     } = props
 
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const handleMenuRightClick = e => {
         if (e.type === 'contextmenu') {
             e.preventDefault()
+            setAnchorEl(e.currentTarget)
         }
+    }
+
+    const handleContextMenuClose = () => {
+        setAnchorEl(null)
+    }
+
+    const handleCopyLink = () => {
+        interfaceActions.showMessage("Copied to cliboard!") 
+        setAnchorEl(null)
+    }
+
+    const handleLeaveRoom = () => {
+        setAnchorEl(null)
     }
 
     const roomIcon = (room_name, room_data) => {
         return (
+            <div
+                key={room_name}
+            >
                 <ListItem
                 onContextMenu={handleMenuRightClick}
-                key={room_name}
                     style={{
                         color: "#aaa"
                     }}
@@ -83,6 +107,24 @@ const Menu = props => {
                     </ListItemIcon>
                     <ListItemText>{room_name}</ListItemText>
                 </ListItem>
+            <MuiMenu
+                id="room-sidebar-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleContextMenuClose}
+            >
+                <CopyToClipboard text={`${process.env.REACT_APP_LINK_ROOT}/synapse/${room_name}`}>
+                    <MenuItem onClick={() => {
+                        handleCopyLink()
+                    }}>Copy Invite Link</MenuItem>
+                </CopyToClipboard>
+                <MenuItem onClick={() => {
+                    handleLeaveRoom()
+                    leaveRoom(room_name)
+                }}>Leave Synapse</MenuItem>
+            </MuiMenu>
+            </div>
         )
     }
 

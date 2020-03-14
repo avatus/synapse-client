@@ -38,7 +38,7 @@ export default (state = {}, action) => {
         case TYPES.USER_ROOM_LIST:
             return {
                 ...state,
-                room_list: action.payload,
+                room_list: Object.assign({},action.payload),
                 fetching_rooms: false,
             }
         case roomTYPES.SET_ROOM:
