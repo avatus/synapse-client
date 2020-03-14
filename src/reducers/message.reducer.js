@@ -2,7 +2,9 @@ import * as TYPES from '../actions/messages/messages.types'
 
 const initialState = {
     messages: [],
-    report: null
+    userInput: "",
+    report: null,
+    focusInput: false,
 }
 
 export default (state = {}, action) => {
@@ -11,6 +13,22 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 messages: [...state.messages, action.payload]
+            }
+        case TYPES.UPDATE_USER_INPUT:
+            return {
+                ...state,
+                userInput: action.payload,
+            }
+        case TYPES.TAG_USER:
+            return {
+                ...state,
+                userInput: `${state.userInput}@${action.payload} `,
+                focusInput: true,
+            }
+        case TYPES.BLUR_USER_INPUT:
+            return {
+                ...state,
+                focusInput: false,
             }
         case TYPES.RECEIVE_MESSAGE:
             return {

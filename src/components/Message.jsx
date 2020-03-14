@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import parse from 'html-react-parser';
+import { connect } from 'react-redux'
 import Avatar from '@material-ui/core/Avatar'
 import randomColor from 'randomcolor'
 import * as messageActions from '../actions/messages/message.actions'
@@ -14,14 +15,16 @@ import useInterval from '@use-it/interval';
 import linkifyHtml from 'linkifyjs/html'
 import * as linkify from 'linkifyjs';
 import hashtag from 'linkifyjs/plugins/hashtag';
+import mention from 'linkifyjs/plugins/mention'
 import { withStyles } from '@material-ui/core/styles'
+mention(linkify)
 hashtag(linkify);
 
 const formatTime = time => {
   return time.fromNow()
 }
 
-const htmlify = text => {
+const htmlify = (text, user) => {
   return linkifyHtml(text, {
     defaultProtocol: 'https',
     formatHref: function (href, type) {
@@ -31,6 +34,9 @@ const htmlify = text => {
       if (type === "url" && href.includes(process.env.REACT_APP_LINK_ROOT)) {
         let parts = href.split('/')
         href = `${process.env.REACT_APP_LINK_ROOT}/synapse/${parts[parts.length-1]}`
+      }
+      if (type === "mention") {
+        href = ""
       }
       return href
     },
@@ -48,6 +54,14 @@ const htmlify = text => {
       if (type === "url" && href.includes(process.env.REACT_APP_LINK_ROOT)) {
         return 'linkified-hashtag'
       }
+      if (type === "mention" && href.includes(user)) {
+        return 'linkified-mention-self'
+
+      }
+      if (type === "mention" && !href.includes(user)) {
+        return 'linkified-mention'
+
+      }
       return 'linkified'
     },
     target: function(value, type) {
@@ -64,10 +78,11 @@ const htmlify = text => {
 }
 
 const Message = props => {
-  const { message, classes, compact, dashboard } = props
+  const { message, classes, user, compact, dashboard, tagUser } = props
   const momentTime = moment(message.time)
   const [time, setTime] = useState(momentTime.fromNow())
   const [anchorEl, setAnchorEl] = useState(null);
+  const userString = user.substring(user.length - 5)
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -86,6 +101,10 @@ const Message = props => {
   }, 60000)
 
   const userImage = `https://api.adorable.io/avatars/64/${message.user}`
+
+  const handleTagClick = () => {
+    tagUser(message.user.substring(user.length - 5))
+  }
 
   const messageMenu = () => {
     return (
@@ -109,13 +128,17 @@ const Message = props => {
         {
           compact ?
           <div style={{display: 'flex', alignItems: 'center'}}>
-            <Typography variant="caption" style={{minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
-            <Typography style={{wordBreak:"break-word"}}>{parse(htmlify(message.text))}</Typography>
+            <Typography 
+            onClick={handleTagClick}
+              variant="caption" style={{cursor: 'pointer', minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography style={{wordBreak:"break-word"}}>{parse(htmlify(message.text, userString))}</Typography>
           </div>
           :
           <div>
-            <Typography>{parse(htmlify(message.text))}</Typography>
-            <Typography variant="caption" style={{color: "#666", wordBreak: "break-word"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+            <Typography>{parse(htmlify(message.text, userString))}</Typography>
+            <Typography 
+            onClick={handleTagClick}
+              variant="caption" style={{cursor: 'pointer', color: "#666", wordBreak: "break-word"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
           </div>
         }
       </div>
@@ -129,7 +152,9 @@ const Message = props => {
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
           {
             compact &&
-            <Typography variant="caption" style={{minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography 
+            onClick={handleTagClick}
+            variant="caption" style={{cursor: 'pointer', minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
           }
           <div>
             {
@@ -152,7 +177,9 @@ const Message = props => {
           </div>
         </div>
           {!compact &&
-            <Typography variant="caption" style={{color: "#666"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+            <Typography 
+            onClick={handleTagClick}
+            variant="caption" style={{color: "#666", cursor: 'pointer'}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
           }
       </div>
     )
@@ -168,7 +195,7 @@ const Message = props => {
           alignItems: 'center',
           padding: "0.2rem 0.5rem 0.2rem 0.5rem"
         }}
-        className={classes.message}>
+      className={message.text.includes(userString) ? classes.taggedMessage : classes.message}>
           <div style={{flex: 1}}>
             {message.type === "image" ? renderImageMessage() : renderTextMessage()}
           </div>
@@ -195,9 +222,10 @@ const Message = props => {
         alignItems: 'center',
         padding: "0.5rem 1rem 0.5rem 1rem"
       }}
-      className={classes.message}>
+      className={message.text.includes(userString) ? classes.taggedMessage : classes.message}>
       <Avatar
-        style={{ marginRight: "1rem" }}
+        onClick={handleTagClick}
+        style={{ marginRight: "1rem", cursor: 'pointer' }}
         src={userImage}
         alt={message.user}
       />
@@ -225,6 +253,23 @@ const styles = theme => ({
     listStyleType: "none",
     transition: '0.1s',
   },
+  taggedMessage: {
+    marginTop: "0.5rem",
+    backgroundColor: "#2F342F",
+    borderLeft: "2px solid #00e676",
+    borderRight: "2px solid #00e676",
+    borderRadius: "4px",
+    listStyleType: "none",
+    transition: '0.1s',
+  },
 })
 
-export default withStyles(styles)(Message)
+const mapStateToProps = state => {
+  return { user: state.auth.user }
+}
+
+const actions = {
+  ...messageActions
+}
+
+export default connect(mapStateToProps, actions)(withStyles(styles)(Message))

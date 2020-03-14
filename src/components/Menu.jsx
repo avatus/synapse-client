@@ -38,10 +38,16 @@ const Menu = props => {
         openJoinDialog,
     } = props
 
+    const handleMenuRightClick = e => {
+        if (e.type === 'contextmenu') {
+            e.preventDefault()
+        }
+    }
 
     const roomIcon = (room_name, room_data) => {
         return (
                 <ListItem
+                onContextMenu={handleMenuRightClick}
                 key={room_name}
                     style={{
                         color: "#aaa"

@@ -176,12 +176,7 @@ const muiStyles = theme => ({
 
 const styles = StyleSheet.create({
     roomBox: {
-        // overflowY: "auto",
-        // overflowX: "hidden",
         minHeight: "100%",
-        // minHeight: `calc(${vh}vh - ${110}px)`,
-        // maxHeight: `calc(${vh}vh - ${110}px)`,
-        // backgroundColor: "#666"
     },
     loading: {
         flex: 1,

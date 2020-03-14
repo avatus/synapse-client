@@ -41,6 +41,18 @@ export const submitReport = message => dispatch => {
     // store.dispatch({ type: interfaceTypes.CLOSE_REPORT_DIALOG })
 }
 
+export const updateUserInput = value => dispatch => {
+    dispatch({ type: TYPES.UPDATE_USER_INPUT, payload: value })
+}
+
+export const tagUser = value => dispatch => {
+    dispatch({ type: TYPES.TAG_USER, payload: value})
+}
+
+export const blurInput = () => dispatch => {
+    dispatch({ type: TYPES.BLUR_USER_INPUT })
+}
+
 export const sendMessage = (room, message) => dispatch => {
     const { room_name } = store.getState().room
     if (room === room_name) {

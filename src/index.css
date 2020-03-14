@@ -39,6 +39,24 @@ a {
   max-width: 100%;
 }
 
+.linkified-mention {
+  pointer-events: none;
+  cursor: default;
+  color: #DDD !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+  max-width: 100%;
+}
+
+.linkified-mention-self {
+  pointer-events: none;
+  cursor: default;
+  color: #00e676 !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+  max-width: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

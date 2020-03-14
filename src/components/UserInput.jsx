@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import * as messageActions from '../actions/messages/message.actions'
 import IconButton from '@material-ui/core/IconButton'
@@ -32,8 +32,25 @@ const actions = {
 }
 
 const UserInput = props => {
-    const { classes, user, sendMessage, current_room } = props
-    const [input, setInput] = useState("")
+    const { 
+        classes, 
+        user, 
+        sendMessage, 
+        updateUserInput: setInput, 
+        userInput: input, 
+        current_room,
+        focusInput,
+        blurInput,
+    } = props
+
+    const inputRef = useRef(null)
+
+    useEffect(() => {
+        if (focusInput === true && inputRef) {
+            inputRef.current.focus()
+        }
+    }, [focusInput])
+    // const [input, setInput] = useState("")
     const [imagePreview, setImagePreview] = useState(null)
     const [uploading, setUploading] = useState(false)
     const [error, setError] = useState("")
@@ -42,7 +59,6 @@ const UserInput = props => {
         setUploading(true)
         axios.post(`${process.env.REACT_APP_ROOT_URL}/auth/user_image_upload`, {data: imagePreview.path})
         .then(response => {
-            console.log(response.data)
             const formData = new FormData()
             formData.append("file", imagePreview);
             formData.append("public_id", response.data.public_id)
@@ -172,6 +188,10 @@ const UserInput = props => {
         setImagePreview(file)
     }
 
+    const handleBlur = () => {
+        blurInput()
+    }
+
     return (
         <div>
             {
@@ -184,6 +204,8 @@ const UserInput = props => {
                     }}>{error}</Typography>
             }
             <TextField
+                inputRef={inputRef}
+                onBlur={handleBlur}
                 onFocus={scrollMessages}
                 InputProps={{
                     disableUnderline: true,
@@ -259,7 +281,9 @@ const muiStyles = theme => ({
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
-        current_room: state.room.room_name
+        current_room: state.room.room_name,
+        userInput: state.messages.userInput,
+        focusInput: state.messages.focusInput,
     }
 }
 
