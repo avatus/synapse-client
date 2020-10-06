@@ -203,6 +203,13 @@ const UserInput = props => {
                         marginLeft: "1rem"
                     }}>{error}</Typography>
             }
+            {
+                <div className={classes.suggestionBox}>
+                    <div className={classes.suggestion}>
+
+                    </div>
+                </div>
+            }
             <TextField
                 inputRef={inputRef}
                 onBlur={handleBlur}
@@ -275,6 +282,13 @@ const muiStyles = theme => ({
     dialogPaper: {
         minHeight: 200,
         maxHeight: "90vh",
+    },
+    suggestionBox: {
+
+    },
+    suggestion: {
+        width: "100%",
+        minHeight: 10,
     }
 })
 

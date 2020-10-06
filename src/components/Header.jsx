@@ -166,7 +166,7 @@ const Header = props => {
                                     </div>
                             </div>
                         }
-                    <div style={{display: 'flex', alignItems: 'center'}}>
+                    <div style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
                         <Typography
                             style={{ color: "#666" }}
                             variant="caption">{user.substring(user.length - 5)}</Typography>
