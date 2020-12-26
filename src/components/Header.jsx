@@ -75,8 +75,7 @@ const Header = props => {
         }
     }, current_room ? 30000 : null)
 
-    const userImage = `https://api.adorable.io/avatars/30/${user}`
-
+    const userImage = `https://robohash.org/${user}.jpg?set=set3&size=32x32`
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);

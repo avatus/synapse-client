@@ -33,7 +33,7 @@ const htmlify = (text, user) => {
       }
       if (type === "url" && href.includes(process.env.REACT_APP_LINK_ROOT)) {
         let parts = href.split('/')
-        href = `${process.env.REACT_APP_LINK_ROOT}/synapse/${parts[parts.length-1]}`
+        href = `${process.env.REACT_APP_LINK_ROOT}/synapse/${parts[parts.length - 1]}`
       }
       if (type === "mention") {
         href = ""
@@ -43,7 +43,7 @@ const htmlify = (text, user) => {
     format: function (value, type) {
       if (type === "url" && value.includes(process.env.REACT_APP_LINK_ROOT)) {
         let parts = value.split('/')
-        value = `#${parts[parts.length-1]}`
+        value = `#${parts[parts.length - 1]}`
       }
       return value
     },
@@ -64,10 +64,10 @@ const htmlify = (text, user) => {
       }
       return 'linkified'
     },
-    target: function(value, type) {
+    target: function (value, type) {
       let target = '_blank'
       if (type === "url" && value.includes(process.env.REACT_APP_LINK_ROOT)) {
-        target =  null
+        target = null
       }
       if (type === "hashtag") {
         target = null
@@ -84,23 +84,23 @@ const Message = props => {
   const [anchorEl, setAnchorEl] = useState(null);
   const userString = user.substring(user.length - 5)
 
-    const handleClick = event => {
-        setAnchorEl(event.currentTarget);
-    }
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  }
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    const handleReport = () => {
-        messageActions.reportMessage(message)
-    }
+  const handleReport = () => {
+    messageActions.reportMessage(message)
+  }
 
   useInterval(() => {
     setTime(formatTime(momentTime))
   }, 60000)
 
-  const userImage = `https://api.adorable.io/avatars/64/${message.user}`
+  const userImage = `https://robohash.org/${message.user}.jpg?set=set3&size=64x64`
 
   const handleTagClick = () => {
     tagUser(message.user.substring(user.length - 5))
@@ -109,12 +109,12 @@ const Message = props => {
   const messageMenu = () => {
     return (
       <Menu
-      id="auth-menu"
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={handleClose}
-  >
-      <MenuItem onClick={() => {
+        id="auth-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={() => {
           handleClose()
           handleReport()
         }}>Report</MenuItem>
@@ -127,19 +127,19 @@ const Message = props => {
       <div>
         {
           compact ?
-          <div style={{display: 'flex', alignItems: 'center'}}>
-            <Typography 
-            onClick={handleTagClick}
-              variant="caption" style={{cursor: 'pointer', minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
-            <Typography style={{wordBreak:"break-word"}}>{parse(htmlify(message.text, userString))}</Typography>
-          </div>
-          :
-          <div>
-            <Typography>{parse(htmlify(message.text, userString))}</Typography>
-            <Typography 
-            onClick={handleTagClick}
-              variant="caption" style={{cursor: 'pointer', color: "#666", wordBreak: "break-word"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
-          </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                onClick={handleTagClick}
+                variant="caption" style={{ cursor: 'pointer', minWidth: 44, color: randomColor({ seed: message.user }), marginRight: "0.5rem" }}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+              <Typography style={{ wordBreak: "break-word" }}>{parse(htmlify(message.text, userString))}</Typography>
+            </div>
+            :
+            <div>
+              <Typography>{parse(htmlify(message.text, userString))}</Typography>
+              <Typography
+                onClick={handleTagClick}
+                variant="caption" style={{ cursor: 'pointer', color: "#666", wordBreak: "break-word" }}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+            </div>
         }
       </div>
     )
@@ -149,38 +149,38 @@ const Message = props => {
   const renderImageMessage = () => {
     return (
       <div>
-        <div style={{display: 'flex', alignItems: 'flex-end'}}>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           {
             compact &&
-            <Typography 
-            onClick={handleTagClick}
-            variant="caption" style={{cursor: 'pointer', minWidth: 44, color: randomColor({seed: message.user}), marginRight: "0.5rem"}}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
+            <Typography
+              onClick={handleTagClick}
+              variant="caption" style={{ cursor: 'pointer', minWidth: 44, color: randomColor({ seed: message.user }), marginRight: "0.5rem" }}>{message.delivered ? `${message.user.substring(message.user.length - 5)}:` : 'Sending...'}</Typography>
           }
           <div>
             {
               dashboard ?
-              <img 
-                style={{maxHeight: 150, maxWidth: "100%"}}
-                alt=""
-                src={message.text} />
+                <img
+                  style={{ maxHeight: 150, maxWidth: "100%" }}
+                  alt=""
+                  src={message.text} />
                 :
-            <a 
-              target="_blank"
-              rel="noopener noreferrer"
-              href={message.text}>
-              <img 
-                style={{maxHeight: 150, maxWidth: "100%"}}
-                alt=""
-                src={message.text} />
-            </a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={message.text}>
+                  <img
+                    style={{ maxHeight: 150, maxWidth: "100%" }}
+                    alt=""
+                    src={message.text} />
+                </a>
             }
           </div>
         </div>
-          {!compact &&
-            <Typography 
+        {!compact &&
+          <Typography
             onClick={handleTagClick}
-            variant="caption" style={{color: "#666", cursor: 'pointer'}}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
-          }
+            variant="caption" style={{ color: "#666", cursor: 'pointer' }}>{message.delivered ? `${message.user.substring(message.user.length - 5)} - ${time}` : 'Sending...'}</Typography>
+        }
       </div>
     )
 
@@ -195,22 +195,22 @@ const Message = props => {
           alignItems: 'center',
           padding: "0.2rem 0.5rem 0.2rem 0.5rem"
         }}
-      className={message.text.includes(userString) ? classes.taggedMessage : classes.message}>
-          <div style={{flex: 1}}>
-            {message.type === "image" ? renderImageMessage() : renderTextMessage()}
-          </div>
-          {
-            !dashboard &&
-          <div style={{justifySelf: 'flex-end'}}>
-            <IconButton 
+        className={message.text.includes(userString) ? classes.taggedMessage : classes.message}>
+        <div style={{ flex: 1 }}>
+          {message.type === "image" ? renderImageMessage() : renderTextMessage()}
+        </div>
+        {
+          !dashboard &&
+          <div style={{ justifySelf: 'flex-end' }}>
+            <IconButton
               onClick={handleClick}
               size="small"
-              style={{color: "#333"}}>
+              style={{ color: "#333" }}>
               <MoreCompactIcon />
             </IconButton>
           </div>
-          }
-      {messageMenu()}
+        }
+        {messageMenu()}
       </div>
     )
   }
@@ -223,20 +223,21 @@ const Message = props => {
         padding: "0.5rem 1rem 0.5rem 1rem"
       }}
       className={message.text.includes(userString) ? classes.taggedMessage : classes.message}>
+        {/* <img src={userImage} /> */}
       <Avatar
         onClick={handleTagClick}
         style={{ marginRight: "1rem", cursor: 'pointer' }}
         src={userImage}
         alt={message.user}
       />
-      <div style={{flex: 1}}>
-          {message.type === "image" ? renderImageMessage() : renderTextMessage()}
+      <div style={{ flex: 1 }}>
+        {message.type === "image" ? renderImageMessage() : renderTextMessage()}
       </div>
-      <div style={{justifySelf: 'flex-end'}}>
-        <IconButton 
+      <div style={{ justifySelf: 'flex-end' }}>
+        <IconButton
           onClick={handleClick}
           size="small"
-          style={{color: "#333"}}>
+          style={{ color: "#333" }}>
           <MoreIcon />
         </IconButton>
       </div>
