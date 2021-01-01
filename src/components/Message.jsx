@@ -100,7 +100,7 @@ const Message = props => {
     setTime(formatTime(momentTime))
   }, 60000)
 
-  const userImage = `https://robohash.org/${message.user}.jpg?set=set3&size=64x64`
+  const userImage = `${process.env.REACT_APP_ROOT_URL}/avatar/32/${message.user}`
 
   const handleTagClick = () => {
     tagUser(message.user.substring(user.length - 5))

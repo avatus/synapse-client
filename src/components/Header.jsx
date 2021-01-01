@@ -75,7 +75,8 @@ const Header = props => {
         }
     }, current_room ? 30000 : null)
 
-    const userImage = `https://robohash.org/${user}.jpg?set=set3&size=32x32`
+    // const userImage = `https://robohash.org/${user}.jpg?set=set3&size=32x32`
+    const userImage = `${process.env.REACT_APP_ROOT_URL}/avatar/30/${user}`
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
