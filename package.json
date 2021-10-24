@@ -38,7 +38,7 @@
     "uuid": "^3.4.0"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_ROOT_URL=http://localhost:5001 react-scripts start",
+    "start": "react-scripts start",
     "dev": "cross-env REACT_APP_ROOT_URL=http://localhost:5001 react-scripts start",
     "local": "cross-env REACT_APP_ROOT_URL=https://synapse-api.herokuapp.com react-scripts start",
     "build": "react-scripts build",
